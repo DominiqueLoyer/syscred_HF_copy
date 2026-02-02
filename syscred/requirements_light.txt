@@ -1,0 +1,19 @@
+# SysCRED - Requirements (Light Version for Render Free Tier)
+# Sans ML models - Mode heuristique uniquement
+# (c) Dominique S. Loyer
+
+# === Core Dependencies ===
+requests>=2.28.0
+beautifulsoup4>=4.11.0
+python-whois>=0.8.0
+
+# === RDF/Ontology ===
+rdflib>=6.0.0
+
+# === Web Backend ===
+flask>=2.3.0
+flask-cors>=4.0.0
+python-dotenv>=1.0.0
+
+# === Production ===
+gunicorn>=20.1.0

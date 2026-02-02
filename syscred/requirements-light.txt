@@ -1,0 +1,31 @@
+# SysCRED - Light Requirements (for Render Free Tier)
+# Système Hybride de Vérification de Crédibilité
+# (c) Dominique S. Loyer
+# 
+# NOTE: ML features (embeddings) disabled for memory constraints
+# For full ML support, use Railway, Fly.io, or Google Cloud Run
+
+# === Core Dependencies ===
+requests>=2.28.0
+beautifulsoup4>=4.11.0
+python-whois>=0.8.0
+
+# === RDF/Ontology ===
+rdflib>=6.0.0
+
+# === Data Processing (lightweight) ===
+numpy>=1.24.0
+pandas>=2.0.0
+
+# === Web Backend ===
+flask>=2.3.0
+flask-cors>=4.0.0
+python-dotenv>=1.0.0
+
+# === Production/Database ===
+gunicorn>=20.1.0
+psycopg2-binary>=2.9.0
+flask-sqlalchemy>=3.0.0
+
+# === Development/Testing ===
+pytest>=7.0.0
