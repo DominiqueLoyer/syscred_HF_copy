@@ -14,7 +14,7 @@ Paper: "Liar, Liar Pants on Fire" (ACL 2017)
 import os
 import csv
 from pathlib import Path
-from typing import List, Dict, Optional, Tuple
+from typing import List, Dict, Optional, Tuple, Any
 from dataclasses import dataclass, field
 from enum import Enum
 
