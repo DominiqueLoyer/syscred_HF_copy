@@ -393,7 +393,17 @@
     </div>
 
     <script>
-        const API_URL = 'http://localhost:5001';
+        // Auto-detect API URL based on environment
+        const API_URL = (() => {
+            const hostname = window.location.hostname;
+            if (hostname.includes('huggingface.co') || hostname.includes('hf.space')) {
+                return '';
+            } else if (hostname.includes('onrender.com')) {
+                return '';
+            } else {
+                return 'http://localhost:5001';
+            }
+        })();
 
         async function analyzeUrl() {
             const urlInput = document.getElementById('urlInput');
