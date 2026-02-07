@@ -1,4 +1,4 @@
-# SysCRED - Full Requirements for Hugging Face Spaces
+# SysCRED - Requirements
 # Système Hybride de Vérification de Crédibilité
 # (c) Dominique S. Loyer
 
@@ -10,7 +10,7 @@ python-whois>=0.8.0
 # === RDF/Ontology ===
 rdflib>=6.0.0
 
-# === Machine Learning (Full) ===
+# === Machine Learning ===
 transformers>=4.30.0
 torch>=2.0.0
 numpy>=1.24.0
@@ -28,4 +28,7 @@ pandas>=2.0.0
 # === Production/Database ===
 gunicorn>=20.1.0
 psycopg2-binary>=2.9.0
-flask-sqlalchemy>=3.0.0
+flask_sqlalchemy>=3.0.0
+
+# === Development/Testing ===
+pytest>=7.0.0
