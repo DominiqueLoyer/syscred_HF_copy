@@ -11,9 +11,9 @@ python-whois>=0.8.0
 rdflib>=6.0.0
 
 # === Machine Learning ===
-transformers>=4.30.0
+transformers>=4.30.0,<5
 torch>=2.0.0
-numpy>=1.24.0
+numpy>=1.24.0,<2
 sentence-transformers>=2.2.0
 
 # === Explainability ===
