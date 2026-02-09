@@ -32,6 +32,44 @@
             min-height: 100vh;
             color: #e0e0e0;
             padding: 2rem;
+            position: relative;
+        }
+        
+        /* Permanent Blue Glow Border Animation - User requested */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            border: 4px solid transparent;
+            border-radius: 0;
+            background: linear-gradient(135deg, #0f0f23, #1a1a3e) padding-box,
+                        linear-gradient(135deg, 
+                            rgba(0, 150, 255, 0.8), 
+                            rgba(100, 200, 255, 0.3), 
+                            rgba(0, 100, 255, 0.6),
+                            rgba(50, 150, 255, 0.4)
+                        ) border-box;
+            animation: blueGlowPulse 4s ease-in-out infinite;
+            z-index: 9999;
+        }
+        
+        @keyframes blueGlowPulse {
+            0%, 100% {
+                opacity: 0.6;
+                filter: blur(0px);
+                box-shadow: inset 0 0 60px rgba(0, 150, 255, 0.3),
+                            0 0 80px rgba(0, 150, 255, 0.2);
+            }
+            50% {
+                opacity: 1;
+                filter: blur(1px);
+                box-shadow: inset 0 0 100px rgba(0, 180, 255, 0.5),
+                            0 0 150px rgba(0, 180, 255, 0.4);
+            }
         }
 
         .container {
@@ -138,6 +176,172 @@
                 opacity: 1;
                 transform: translateY(0);
             }
+        }
+
+        /* ========================================
+           NER ENTITIES STYLES
+           ======================================== */
+        .ner-section {
+            background: rgba(0, 212, 255, 0.05);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .ner-entities {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+        
+        .ner-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .ner-tag:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        
+        .ner-tag.person { background: linear-gradient(135deg, rgba(239, 68, 68, 0.3), rgba(239, 68, 68, 0.1)); border: 1px solid rgba(239, 68, 68, 0.5); color: #fca5a5; }
+        .ner-tag.org { background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(59, 130, 246, 0.1)); border: 1px solid rgba(59, 130, 246, 0.5); color: #93c5fd; }
+        .ner-tag.location { background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(16, 185, 129, 0.1)); border: 1px solid rgba(16, 185, 129, 0.5); color: #6ee7b7; }
+        .ner-tag.date { background: linear-gradient(135deg, rgba(245, 158, 11, 0.3), rgba(245, 158, 11, 0.1)); border: 1px solid rgba(245, 158, 11, 0.5); color: #fcd34d; }
+        .ner-tag.misc { background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(139, 92, 246, 0.1)); border: 1px solid rgba(139, 92, 246, 0.5); color: #c4b5fd; }
+        
+        .ner-tag-icon { font-size: 1.1rem; }
+        .ner-tag-text { font-weight: 600; }
+        .ner-tag-type { font-size: 0.75rem; opacity: 0.8; }
+
+        /* ========================================
+           E-E-A-T PROGRESS BARS STYLES  
+           ======================================== */
+        .eeat-section {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .eeat-bars {
+            display: grid;
+            gap: 1rem;
+        }
+        
+        .eeat-bar-item {
+            background: rgba(255,255,255,0.02);
+            border-radius: 12px;
+            padding: 1rem;
+        }
+        
+        .eeat-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .eeat-value {
+            background: rgba(16, 185, 129, 0.2);
+            padding: 0.25rem 0.75rem;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #10b981;
+        }
+        
+        .eeat-bar-container {
+            height: 12px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .eeat-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #34d399);
+            border-radius: 6px;
+            transition: width 1s ease-out;
+        }
+        
+        .eeat-bar.expertise { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+        .eeat-bar.authority { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+        .eeat-bar.trust { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+        
+        .eeat-overall {
+            margin-top: 1.5rem;
+            text-align: center;
+            padding: 1rem;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(16, 185, 129, 0.05));
+            border-radius: 12px;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            font-size: 1.1rem;
+        }
+        
+        .eeat-overall strong {
+            color: #10b981;
+            font-size: 1.5rem;
+            margin-left: 0.5rem;
+        }
+
+        /* ========================================
+           WHY THIS RESULT SECTION
+           ======================================== */
+        .why-section {
+            background: rgba(245, 158, 11, 0.05);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .why-content {
+            display: grid;
+            gap: 1rem;
+        }
+        
+        .why-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255,255,255,0.02);
+            border-radius: 10px;
+            border-left: 3px solid #f59e0b;
+        }
+        
+        .why-icon {
+            font-size: 1.5rem;
+            min-width: 2rem;
+        }
+        
+        .why-text {
+            flex: 1;
+        }
+        
+        .why-text-title {
+            font-weight: 600;
+            color: #fbbf24;
+            margin-bottom: 0.25rem;
+        }
+        
+        .why-text-desc {
+            color: #9ca3af;
+            font-size: 0.9rem;
+            line-height: 1.5;
         }
 
         .score-card {
@@ -586,6 +790,79 @@
 
             <div class="details-grid" id="detailsGrid"></div>
 
+            <!-- NER ENTITIES SECTION -->
+            <div class="ner-section" id="nerSection" style="display: none;">
+                <div class="summary-title" style="margin-bottom: 1rem; color: #00d4ff;">🏷️ Entités Détectées (NER)</div>
+                <div class="ner-entities" id="nerEntities">
+                    <!-- Filled dynamically -->
+                </div>
+            </div>
+
+            <!-- E-E-A-T METRICS SECTION -->
+            <div class="eeat-section" id="eeatSection" style="display: none;">
+                <div class="summary-title" style="margin-bottom: 1rem; color: #10b981;">
+                    📊 Score E-E-A-T 
+                    <span class="help-icon" onclick="event.stopPropagation(); showEEATExplainer()" title="Experience, Expertise, Authority, Trust - Critères Google">?</span>
+                </div>
+                <p style="color: #8b8ba7; font-size: 0.9rem; margin-bottom: 1rem;">Critères inspirés du système de qualité de Google</p>
+                
+                <div class="eeat-bars">
+                    <div class="eeat-bar-item">
+                        <div class="eeat-label">
+                            <span>🎯 Experience</span>
+                            <span class="eeat-value" id="eeatExperience">--</span>
+                        </div>
+                        <div class="eeat-bar-container">
+                            <div class="eeat-bar" id="eeatExperienceBar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="eeat-bar-item">
+                        <div class="eeat-label">
+                            <span>🧠 Expertise</span>
+                            <span class="eeat-value" id="eeatExpertise">--</span>
+                        </div>
+                        <div class="eeat-bar-container">
+                            <div class="eeat-bar expertise" id="eeatExpertiseBar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="eeat-bar-item">
+                        <div class="eeat-label">
+                            <span>🏛️ Authority</span>
+                            <span class="eeat-value" id="eeatAuthority">--</span>
+                        </div>
+                        <div class="eeat-bar-container">
+                            <div class="eeat-bar authority" id="eeatAuthorityBar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="eeat-bar-item">
+                        <div class="eeat-label">
+                            <span>🛡️ Trust</span>
+                            <span class="eeat-value" id="eeatTrust">--</span>
+                        </div>
+                        <div class="eeat-bar-container">
+                            <div class="eeat-bar trust" id="eeatTrustBar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="eeat-overall" id="eeatOverall">
+                    Score Global E-E-A-T: <strong>--</strong>
+                </div>
+            </div>
+
+            <!-- GOOGLE-STYLE EXPLANATION -->
+            <div class="why-section" id="whySection" style="display: none;">
+                <div class="summary-title" style="margin-bottom: 1rem; color: #f59e0b;">
+                    🔍 Pourquoi ce résultat ?
+                </div>
+                <div class="why-content" id="whyContent">
+                    <!-- Filled dynamically with Google-style explanations -->
+                </div>
+            </div>
+
             <div class="graph-section" style="margin-top: 3rem;">
                 <div class="summary-title" style="margin-bottom: 2rem; color: #60a5fa;">🕸️ Réseau Neuro-Symbolique
                     (Ontologie)</div>
@@ -606,6 +883,9 @@
                 </div>
                 <div id="explainerBody">
                     <!-- Content filled dynamically -->
+                </div>
+                <div style="margin-top: 1.5rem; text-align: center;">
+                    <button onclick="closeExplainer()" style="background: linear-gradient(135deg, #7c3aed, #a855f7); padding: 0.75rem 2rem; border-radius: 10px; border: none; color: white; font-weight: 600; cursor: pointer;">✓ Fermer</button>
                 </div>
             </div>
         </div>
@@ -805,6 +1085,19 @@
                     </div>
                 `;
             }
+            
+            // Add Bias Analysis if available
+            if (nlpAnalysis.bias_analysis && nlpAnalysis.bias_analysis.score !== null) {
+                const biasScore = nlpAnalysis.bias_analysis.score;
+                const biasLabel = nlpAnalysis.bias_analysis.label || 'Non analysé';
+                const biasColor = biasScore > 0.5 ? '#ef4444' : biasScore > 0.3 ? '#eab308' : '#22c55e';
+                detailsHTML += `
+                    <div class="detail-card">
+                        <div class="detail-label">⚖️ Analyse de Biais <span class="help-icon" title="Mesure si le texte contient un langage biaisé ou partisan">?</span></div>
+                        <div class="detail-value" style="color: ${biasColor}">${biasLabel} (${(biasScore * 100).toFixed(0)}%)</div>
+                    </div>
+                `;
+            }
 
             // Fact checks
             const factChecks = ruleResults.fact_checking || [];
@@ -831,6 +1124,177 @@
             }
 
             detailsGrid.innerHTML = detailsHTML;
+
+            // ========================================
+            // DISPLAY NER ENTITIES
+            // ========================================
+            const nerSection = document.getElementById('nerSection');
+            const nerEntities = document.getElementById('nerEntities');
+            const entities = nlpAnalysis.entities || data.ner_entities || [];
+            
+            if (entities && entities.length > 0) {
+                nerSection.style.display = 'block';
+                let nerHTML = '';
+                
+                const entityIcons = {
+                    'PERSON': '👤', 'PER': '👤',
+                    'ORG': '🏢', 'ORGANIZATION': '🏢',
+                    'LOC': '📍', 'LOCATION': '📍', 'GPE': '📍',
+                    'DATE': '📅', 'TIME': '🕐',
+                    'MISC': '🏷️', 'PRODUCT': '📦', 'EVENT': '🎭'
+                };
+                
+                const entityClasses = {
+                    'PERSON': 'person', 'PER': 'person',
+                    'ORG': 'org', 'ORGANIZATION': 'org',
+                    'LOC': 'location', 'LOCATION': 'location', 'GPE': 'location',
+                    'DATE': 'date', 'TIME': 'date',
+                    'MISC': 'misc', 'PRODUCT': 'misc', 'EVENT': 'misc'
+                };
+                
+                entities.forEach(entity => {
+                    const text = entity.text || entity.word || entity.entity;
+                    const type = (entity.label || entity.entity_group || entity.type || 'MISC').toUpperCase();
+                    const icon = entityIcons[type] || '🏷️';
+                    const cssClass = entityClasses[type] || 'misc';
+                    
+                    nerHTML += `
+                        <span class="ner-tag ${cssClass}">
+                            <span class="ner-tag-icon">${icon}</span>
+                            <span class="ner-tag-text">${text}</span>
+                            <span class="ner-tag-type">${type}</span>
+                        </span>
+                    `;
+                });
+                
+                nerEntities.innerHTML = nerHTML;
+            } else {
+                nerSection.style.display = 'none';
+            }
+            
+            // ========================================
+            // DISPLAY E-E-A-T METRICS
+            // ========================================
+            const eeatSection = document.getElementById('eeatSection');
+            const eeatData = data.eeat_score || data.eeatMetrics || null;
+            
+            if (eeatData) {
+                eeatSection.style.display = 'block';
+                
+                // Experience
+                const experience = eeatData.experience || eeatData.Experience || 0;
+                document.getElementById('eeatExperience').textContent = Math.round(experience * 100) + '%';
+                document.getElementById('eeatExperienceBar').style.width = (experience * 100) + '%';
+                
+                // Expertise
+                const expertise = eeatData.expertise || eeatData.Expertise || 0;
+                document.getElementById('eeatExpertise').textContent = Math.round(expertise * 100) + '%';
+                document.getElementById('eeatExpertiseBar').style.width = (expertise * 100) + '%';
+                
+                // Authority
+                const authority = eeatData.authority || eeatData.Authority || 0;
+                document.getElementById('eeatAuthority').textContent = Math.round(authority * 100) + '%';
+                document.getElementById('eeatAuthorityBar').style.width = (authority * 100) + '%';
+                
+                // Trust
+                const trust = eeatData.trust || eeatData.Trust || 0;
+                document.getElementById('eeatTrust').textContent = Math.round(trust * 100) + '%';
+                document.getElementById('eeatTrustBar').style.width = (trust * 100) + '%';
+                
+                // Overall E-E-A-T Score
+                const overall = eeatData.overall || eeatData.Overall || 
+                    ((experience * 0.15) + (expertise * 0.25) + (authority * 0.35) + (trust * 0.25));
+                document.getElementById('eeatOverall').innerHTML = 
+                    `Score Global E-E-A-T: <strong>${Math.round(overall * 100)}%</strong>`;
+            } else {
+                eeatSection.style.display = 'none';
+            }
+            
+            // ========================================
+            // DISPLAY "WHY THIS RESULT?" EXPLANATION
+            // ========================================
+            const whySection = document.getElementById('whySection');
+            const whyContent = document.getElementById('whyContent');
+            
+            // Generate explanations based on analysis data
+            let whyItems = [];
+            
+            // Sentiment-based explanation
+            if (nlpAnalysis.sentiment) {
+                const sentLabel = nlpAnalysis.sentiment.label;
+                const sentScore = (nlpAnalysis.sentiment.score * 100).toFixed(0);
+                whyItems.push({
+                    icon: sentLabel === 'POSITIVE' ? '😊' : (sentLabel === 'NEGATIVE' ? '😟' : '😐'),
+                    title: `Ton ${sentLabel.toLowerCase()}`,
+                    desc: `Le texte utilise un langage ${sentLabel === 'POSITIVE' ? 'positif et optimiste' : 
+                           sentLabel === 'NEGATIVE' ? 'négatif ou critique' : 'neutre'} (${sentScore}% de confiance).`
+                });
+            }
+            
+            // Coherence-based explanation
+            if (nlpAnalysis.coherence_score !== undefined) {
+                const cohScore = (nlpAnalysis.coherence_score * 100).toFixed(0);
+                whyItems.push({
+                    icon: nlpAnalysis.coherence_score > 0.7 ? '✓' : (nlpAnalysis.coherence_score > 0.4 ? '⚡' : '✗'),
+                    title: `Cohérence ${nlpAnalysis.coherence_score > 0.7 ? 'élevée' : (nlpAnalysis.coherence_score > 0.4 ? 'moyenne' : 'faible')}`,
+                    desc: `Le texte présente une cohérence sémantique de ${cohScore}%, indiquant ${
+                        nlpAnalysis.coherence_score > 0.7 ? 'un contenu bien structuré et logique' :
+                        nlpAnalysis.coherence_score > 0.4 ? 'un contenu partiellement cohérent' :
+                        'des incohérences ou contradictions possibles'}.`
+                });
+            }
+            
+            // Source reputation
+            if (sourceAnalysis.reputation) {
+                whyItems.push({
+                    icon: sourceAnalysis.reputation === 'High' ? '🏆' : (sourceAnalysis.reputation === 'Low' ? '⚠️' : '📊'),
+                    title: `Source ${sourceAnalysis.reputation === 'High' ? 'fiable' : 
+                                    sourceAnalysis.reputation === 'Low' ? 'douteuse' : 'moyenne'}`,
+                    desc: `La réputation de cette source est ${sourceAnalysis.reputation === 'High' ? 
+                           'reconnue et établie' : sourceAnalysis.reputation === 'Low' ? 
+                           'faible ou non vérifiable' : 'modérée'}.`
+                });
+            }
+            
+            // Bias analysis
+            if (nlpAnalysis.bias_analysis && nlpAnalysis.bias_analysis.score !== null) {
+                const biasScore = nlpAnalysis.bias_analysis.score;
+                whyItems.push({
+                    icon: biasScore > 0.5 ? '⚖️' : '✓',
+                    title: biasScore > 0.5 ? 'Biais détecté' : 'Faible biais',
+                    desc: `${biasScore > 0.5 ? 'Le texte contient des éléments de langage partisan ou biaisé.' : 
+                           'Le texte semble relativement objectif et équilibré.'}`
+                });
+            }
+            
+            // PageRank
+            if (data.pageRankEstimation && data.pageRankEstimation.estimatedPR) {
+                const pr = data.pageRankEstimation.estimatedPR;
+                whyItems.push({
+                    icon: '📈',
+                    title: 'Autorité de la page',
+                    desc: `PageRank estimé à ${pr.toFixed(3)}, basé sur l'analyse structurelle du site et des facteurs SEO.`
+                });
+            }
+            
+            if (whyItems.length > 0) {
+                whySection.style.display = 'block';
+                let whyHTML = '';
+                whyItems.forEach(item => {
+                    whyHTML += `
+                        <div class="why-item">
+                            <div class="why-icon">${item.icon}</div>
+                            <div class="why-text">
+                                <div class="why-text-title">${item.title}</div>
+                                <div class="why-text-desc">${item.desc}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+                whyContent.innerHTML = whyHTML;
+            } else {
+                whySection.style.display = 'none';
+            }
 
             results.classList.add('visible');
 
