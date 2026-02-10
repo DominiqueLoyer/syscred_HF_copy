@@ -338,6 +338,21 @@ class CredibilityVerificationSystem:
         
         # 4. Semantic Coherence
         results['coherence_score'] = self._calculate_coherence(text)
+
+        # 5. [NEW] E-E-A-T Score Calculation
+        if HAS_EEAT:
+            try:
+                # Initialize calc if needed (lazy load)
+                if not hasattr(self, 'eeat_calculator') or self.eeat_calculator is None:
+                    self.eeat_calculator = EEATCalculator()
+                
+                # Calculate score
+                eeat = self.eeat_calculator.calculate_eeat(text, results.get('named_entities', []))
+                # Store in results as dict
+                results['eeat_score'] = eeat.to_dict()
+                print(f"[NLP] EEAT Score calculated: {eeat.overall_score:.2f}")
+            except Exception as e:
+                print(f"[NLP] EEAT error: {e}")
         
         return results
 
@@ -743,7 +758,7 @@ class CredibilityVerificationSystem:
         })
         report['sourcesUtilisees'].append({
             'type': 'Fact Check API',
-            'results_count': len(external_data.fact_checks)
+            'results_count': len(external_data.fact_checks) if external_data.fact_checks else 0
         })
         # [NEW] Add TREC evidence source
         if evidences:
@@ -753,6 +768,16 @@ class CredibilityVerificationSystem:
                 'corpus': 'AP88-90',
                 'results_count': len(evidences)
             })
+            
+        # [FIX] Add explicit fields for frontend
+        if nlp_results.get('named_entities'):
+            report['ner_entities'] = nlp_results.get('named_entities')
+            
+        # Add EEAT score if available (from rule_results or nlp_results)
+        if 'eeat_score' in rule_results:
+             report['eeat_score'] = rule_results['eeat_score']
+        elif 'eeat_score' in nlp_results:
+             report['eeat_score'] = nlp_results['eeat_score']
         
         return report
     
