@@ -56,7 +56,7 @@ def init_db(app):
             print("[SysCRED-DB] Falling back to SQLite...")
             db_url = None  # Force SQLite fallback
     
-    app.config['SQLALCHEMY_DATABASE_URI'] = db_url or 'sqlite:///syscred.db'
+    app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres.zmluirvqfkmfazqitqgi:FactCheckingSystem2026_test@aws-1-us-east-1.pooler.supabase.com:5432/postgres"
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
     db.init_app(app)
