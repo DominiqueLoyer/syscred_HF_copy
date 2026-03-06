@@ -927,9 +927,35 @@
 
     <script>
         // Backend URLs
+        // Empty string means relative path (same domain), which works for HF Space
+        const REMOTE_API_URL = ''; 
         const LOCAL_API_URL = 'http://localhost:5001';
-        const REMOTE_API_URL = 'https://domloyer-syscred.hf.space';
-        let API_URL = '';
+        
+        // Detect if we are already on localhost
+        const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        let API_URL = isLocalhost ? LOCAL_API_URL : REMOTE_API_URL;
+        
+        // Set initial toggle state based on environment
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggle = document.getElementById('backendToggle');
+            const status = document.getElementById('backendStatus');
+            const labelLocal = document.getElementById('labelLocal');
+            const labelRemote = document.getElementById('labelRemote');
+            
+            if (isLocalhost) {
+                toggle.checked = false;
+                status.textContent = 'Backend: localhost:5001 (léger, sans ML)';
+                status.className = 'backend-status local';
+                labelLocal.classList.add('active');
+                labelRemote.classList.remove('active');
+            } else {
+                toggle.checked = true;
+                status.textContent = 'Backend: HF Space (ML complet)';
+                status.className = 'backend-status remote';
+                labelLocal.classList.remove('active');
+                labelRemote.classList.add('active');
+            }
+        });
         
         function toggleBackend() {
             const toggle = document.getElementById('backendToggle');
@@ -939,7 +965,7 @@
             
             if (toggle.checked) {
                 API_URL = REMOTE_API_URL;
-                status.textContent = 'Backend: HF Space (ML complet, plus lent)';
+                status.textContent = 'Backend: HF Space (ML complet)';
                 status.className = 'backend-status remote';
                 labelLocal.classList.remove('active');
                 labelRemote.classList.add('active');
@@ -950,7 +976,7 @@
                 labelLocal.classList.add('active');
                 labelRemote.classList.remove('active');
             }
-            console.log('[SysCRED] Backend switched to:', API_URL);
+            console.log('[SysCRED] Backend switched to:', API_URL || 'Relative Path (HF Space)');
         }
 
         async function analyzeUrl() {
@@ -1158,9 +1184,23 @@
             // ========================================
             const nerSection = document.getElementById('nerSection');
             const nerEntities = document.getElementById('nerEntities');
-            const entities = nlpAnalysis.entities || data.ner_entities || [];
+            let nerData = data.ner_entities || nlpAnalysis.entities || {};
             
-            if (entities && entities.length > 0) {
+            // Convert dict format to array if needed
+            let entities = [];
+            if (Array.isArray(nerData)) {
+                entities = nerData;
+            } else if (typeof nerData === 'object' && nerData !== null) {
+                for (const [label, items] of Object.entries(nerData)) {
+                    if (Array.isArray(items)) {
+                        items.forEach(item => {
+                            entities.push({...item, label: label});
+                        });
+                    }
+                }
+            }
+            
+            if (entities.length > 0) {
                 nerSection.style.display = 'block';
                 let nerHTML = '';
                 
@@ -1204,7 +1244,7 @@
             // DISPLAY E-E-A-T METRICS
             // ========================================
             const eeatSection = document.getElementById('eeatSection');
-            const eeatData = data.eeat_score || data.eeatMetrics || null;
+            const eeatData = data.eeat_scores || data.eeat_scores || null;
             
             if (eeatData) {
                 eeatSection.style.display = 'block';
@@ -1622,18 +1662,22 @@
             
             if(!overlay) return;
             
-            title.textContent = d.name;
+            title.textContent = d.name || d.label || 'Unknown';
             
             let typeColor = "#94a3b8";
             if(d.group === 1) typeColor = "#8b5cf6"; // Report
             if(d.group === 3) typeColor = "#22c55e"; // Good
             if(d.group === 4) typeColor = "#ef4444"; // Bad
             
+            // Use uri field if available, fallback to id
+            const displayUri = d.uri || d.id || 'N/A';
+            
             body.innerHTML = `
                 <div style="margin-bottom:0.5rem">
                     <span style="background:${typeColor}; color:white; padding:2px 6px; border-radius:4px; font-size:0.75rem;">${d.type || 'Unknown Type'}</span>
                 </div>
-                <div><strong>URI:</strong> <br><span style="font-family:monospace; color:#a855f7; word-break:break-all;">${d.id}</span></div>
+                <div><strong>URI:</strong> <br><span style="font-family:monospace; color:#a855f7; word-break:break-all;">${displayUri}</span></div>
+                ${d.score ? `<div style="margin-top:0.5rem"><strong>Score:</strong> ${(d.score * 100).toFixed(0)}%</div>` : ''}
             `;
             
             overlay.classList.add('visible');
