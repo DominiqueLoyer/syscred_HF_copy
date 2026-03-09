@@ -427,7 +427,7 @@ class OntologyManager:
             
         return {'nodes': nodes, 'links': links}
     
-    def export_to_ttl(self, output_path: str, include_base: bool = False) -> bool:
+        def export_to_ttl(self, output_path: str, include_base: bool = False) -> bool:
         """
         Export the ontology to a TTL file.
         
@@ -439,6 +439,12 @@ class OntologyManager:
             True if successful
         """
         try:
+            # --- FIX 2.3 : Créer le dossier si nécessaire ---
+            output_dir = os.path.dirname(output_path)
+            if output_dir:
+                os.makedirs(output_dir, exist_ok=True)
+            # ----------------------------------------------
+
             if include_base:
                 combined = self.base_graph + self.data_graph
                 combined.serialize(destination=output_path, format='turtle')
@@ -450,6 +456,7 @@ class OntologyManager:
         except Exception as e:
             print(f"[OntologyManager] Export error: {e}")
             return False
+
     
     def save_data(self) -> bool:
         """Save the data graph to its configured path."""
