@@ -175,11 +175,11 @@ class CredibilityVerificationSystem:
             print(f"[SysCRED] ✗ Sentiment model failed: {e}")
 
         try:
-            # NER pipeline - modèle plus léger
+               # NER pipeline - modèle plus léger
             self.ner_pipeline = pipeline(
                 "ner",
                 model="dslim/bert-base-NER",
-                grouped_entities=True,
+                aggregation_strategy="simple", # <--- CORRECTION ICI (remplace grouped_entities=True)
                 device=-1,
                 model_kwargs={"low_cpu_mem_usage": True}
             )
@@ -344,7 +344,7 @@ class CredibilityVerificationSystem:
                         return np.array(probs)
                     
                     explanation = self.explainer.explain_instance(
-                        text[:512], predict_proba, num_features=6
+                        text[:512], predict_proba, num_features=6, num_samples=500 # <--- AJOUTER CECI
                     )
                     results['sentiment_explanation'] = explanation.as_list()
             except Exception as e:
