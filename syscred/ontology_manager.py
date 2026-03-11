@@ -46,8 +46,8 @@ class OntologyManager:
     - Exporting enriched ontology
     """
     
-    # Namespace for the credibility ontology
-    CRED_NS = "https://github.com/DominiqueLoyer/systemFactChecking#"
+    # Namespace for the credibility ontology (unified)
+    CRED_NS = "https://syscred.uqam.ca/ontology#"
     
     def __init__(self, base_ontology_path: Optional[str] = None, data_path: Optional[str] = None):
         """
@@ -254,7 +254,7 @@ class OntologyManager:
         
         # SPARQL query to find all evaluations for this URL
         query = """
-        PREFIX cred: <http://www.dic9335.uqam.ca/ontologies/credibility-verification#>
+        PREFIX cred: <https://syscred.uqam.ca/ontology#>
         PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
         
         SELECT ?report ?score ?level ?timestamp ?content
@@ -298,7 +298,7 @@ class OntologyManager:
         
         # Count evaluations
         query = """
-        PREFIX cred: <http://www.dic9335.uqam.ca/ontologies/credibility-verification#>
+        PREFIX cred: <https://syscred.uqam.ca/ontology#>
         SELECT (COUNT(?report) as ?count) WHERE {
             ?report a cred:RapportEvaluation .
         }
@@ -321,7 +321,7 @@ class OntologyManager:
         
         # Get the latest report ID
         latest_query = """
-        PREFIX cred: <https://github.com/DominiqueLoyer/systemFactChecking#>
+        PREFIX cred: <https://syscred.uqam.ca/ontology#>
         SELECT ?report ?timestamp WHERE {
             ?report a cred:RapportEvaluation .
             ?report cred:completionTimestamp ?timestamp .
@@ -355,7 +355,7 @@ class OntologyManager:
         
         # Query triples related to this report (Level 1)
         related_query = """
-        PREFIX cred: <https://github.com/DominiqueLoyer/systemFactChecking#>
+        PREFIX cred: <https://syscred.uqam.ca/ontology#>
         SELECT ?p ?o ?oType ?oLabel WHERE {
             <%s> ?p ?o .
             OPTIONAL { ?o a ?oType } .
@@ -454,6 +454,10 @@ class OntologyManager:
     def save_data(self) -> bool:
         """Save the data graph to its configured path."""
         if self.data_path:
+            # Ensure directory exists (fix Permission denied on HF Space)
+            data_dir = os.path.dirname(self.data_path)
+            if data_dir:
+                os.makedirs(data_dir, exist_ok=True)
             return self.export_to_ttl(self.data_path, include_base=False)
         return False
 

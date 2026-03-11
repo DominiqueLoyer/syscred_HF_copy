@@ -974,10 +974,12 @@ class CredibilityVerificationSystem:
         nlp_results = self.nlp_analysis(cleaned_text)
         
         # 6.5 [NER] Named Entity Recognition
+        # IMPORTANT: Use original text (not preprocessed) — NER needs capitalization
         ner_entities = {}
-        if self.ner_analyzer and cleaned_text:
+        ner_input_text = text_to_analyze if text_to_analyze else input_data
+        if self.ner_analyzer and ner_input_text:
             try:
-                ner_entities = self.ner_analyzer.extract_entities(cleaned_text)
+                ner_entities = self.ner_analyzer.extract_entities(ner_input_text)
                 total = sum(len(v) for v in ner_entities.values() if isinstance(v, list))
                 print(f"[SysCRED] NER: {total} entites detectees")
             except Exception as e:
@@ -989,8 +991,8 @@ class CredibilityVerificationSystem:
             try:
                 url_for_eeat = input_data if is_url else ""
                 domain_age_years = None
-                if external_data.domain_age_days:
-                    domain_age_years = external_data.domain_age_days / 365.0
+                if external_data.domain_age_days is not None and external_data.domain_age_days > 0:
+                    domain_age_years = float(external_data.domain_age_days) / 365.0
                 
                 eeat_raw = self.eeat_calculator.calculate(
                     url=url_for_eeat,

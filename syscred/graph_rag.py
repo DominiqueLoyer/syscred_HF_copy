@@ -65,7 +65,7 @@ class GraphRAG:
             
         # We reuse the specific query logic but tailored for retrieval
         query = """
-        PREFIX cred: <https://github.com/DominiqueLoyer/systemFactChecking#>
+        PREFIX cred: <https://syscred.uqam.ca/ontology#>
         
         SELECT ?score ?level ?timestamp
         WHERE {
@@ -128,7 +128,7 @@ class GraphRAG:
         regex_pattern = "|".join(clean_kws)
         
         query = """
-        PREFIX cred: <https://github.com/DominiqueLoyer/systemFactChecking#>
+        PREFIX cred: <https://syscred.uqam.ca/ontology#>
         
         SELECT ?report ?content ?score ?level ?timestamp
         WHERE {
@@ -256,7 +256,7 @@ class GraphRAG:
             return {'count': 0, 'avg_score': 0.5, 'scores': []}
             
         query = """
-        PREFIX cred: <https://github.com/DominiqueLoyer/systemFactChecking#>
+        PREFIX cred: <https://syscred.uqam.ca/ontology#>
         
         SELECT ?score ?level ?timestamp
         WHERE {

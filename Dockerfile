@@ -28,6 +28,10 @@ RUN python -m spacy download fr_core_news_md || true
 # Copy application code
 COPY syscred/ /app/syscred/
 COPY ontology/ /app/ontology/
+COPY .env /app/.env
+
+# Make ontology directory writable (fix Permission denied for TTL export)
+RUN chmod -R 777 /app/ontology
 
 # Create user for HF Spaces (required)
 RUN useradd -m -u 1000 user
