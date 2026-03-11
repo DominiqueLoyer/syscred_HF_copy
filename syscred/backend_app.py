@@ -111,37 +111,101 @@ seo_analyzer = None
 trec_retriever = None
 eval_metrics = None
 
-# Demo corpus for TREC (AP88-90 style documents)
+# Demo corpus for TREC (AP88-90 style documents — diverse topics)
 TREC_DEMO_CORPUS = {
+    # Climate
     "AP880101-0001": {
         "text": "Climate change is primarily caused by human activities, particularly the burning of fossil fuels which release greenhouse gases into the atmosphere.",
-        "title": "Climate Science Report"
+        "title": "Climate Science Report",
+        "topic": "climate"
     },
     "AP880101-0002": {
         "text": "The Earth's temperature has risen significantly over the past century due to greenhouse gas emissions from industrial activities and deforestation.",
-        "title": "Global Warming Study"
+        "title": "Global Warming Study",
+        "topic": "climate"
     },
     "AP880102-0001": {
         "text": "Scientists warn that sea levels could rise dramatically if current warming trends continue, threatening coastal cities worldwide.",
-        "title": "Sea Level Warning"
+        "title": "Sea Level Warning",
+        "topic": "climate"
     },
+    # Politics / Fact-checking
     "AP890215-0001": {
-        "text": "The presidential election campaign focused on economic policies, healthcare reform, and national security issues.",
-        "title": "Election Coverage"
+        "text": "The presidential election campaign focused on economic policies, healthcare reform, and national security issues. Candidates made numerous claims that were fact-checked by independent organizations.",
+        "title": "Election Coverage",
+        "topic": "politics"
     },
     "AP890216-0001": {
         "text": "Stock markets rose sharply after positive economic indicators were released by the Federal Reserve, signaling economic recovery.",
-        "title": "Financial News"
+        "title": "Financial News",
+        "topic": "economy"
     },
     "AP880201-0001": {
         "text": "Renewable energy sources like solar and wind power are becoming more cost-effective alternatives to fossil fuels.",
-        "title": "Green Energy Report"
+        "title": "Green Energy Report",
+        "topic": "climate"
     },
     "AP890301-0001": {
-        "text": "The technology industry continues to grow rapidly, with artificial intelligence and machine learning driving innovation.",
-        "title": "Tech Industry Update"
+        "text": "The technology industry continues to grow rapidly, with artificial intelligence and machine learning driving innovation across sectors.",
+        "title": "Tech Industry Update",
+        "topic": "tech"
+    },
+    # Politics & misinformation
+    "AP890401-0001": {
+        "text": "Donald Trump made several statements about the January 6 Capitol insurrection that were disputed by fact-checkers and contradicted by video evidence and court testimony.",
+        "title": "Capitol Insurrection Fact-Check",
+        "topic": "politics"
+    },
+    "AP890401-0002": {
+        "text": "Political misinformation spread rapidly on social media platforms during election season, with false claims about voter fraud being widely shared despite lack of evidence.",
+        "title": "Misinformation in Elections",
+        "topic": "politics"
+    },
+    "AP890501-0001": {
+        "text": "Fact-checking organizations worldwide have increased their efforts to combat false claims and conspiracy theories circulating on social media platforms.",
+        "title": "Global Fact-Checking Efforts",
+        "topic": "factcheck"
+    },
+    # Health
+    "AP890601-0001": {
+        "text": "COVID-19 vaccines have been proven safe and effective through extensive clinical trials involving millions of participants across multiple countries.",
+        "title": "Vaccine Safety Report",
+        "topic": "health"
+    },
+    "AP890601-0002": {
+        "text": "The World Health Organization warned about the dangers of health misinformation, particularly regarding vaccines and pandemic-related treatments.",
+        "title": "WHO Misinformation Warning",
+        "topic": "health"
+    },
+    # Media credibility
+    "AP890701-0001": {
+        "text": "Traditional media outlets maintain editorial standards including fact-checking, source verification, and editorial review before publication.",
+        "title": "Media Standards Report",
+        "topic": "media"
+    },
+    "AP890701-0002": {
+        "text": "Social media algorithms can create filter bubbles that reinforce existing beliefs and make users more susceptible to misinformation and biased content.",
+        "title": "Algorithm Bias Study",
+        "topic": "media"
+    },
+    "AP890801-0001": {
+        "text": "Independent fact-checking organizations use systematic methods to verify claims made by politicians, evaluating evidence and providing rating scales for accuracy.",
+        "title": "Fact-Check Methodology",
+        "topic": "factcheck"
     },
 }
+
+# Topic-based relevance judgments (qrels) for demo evaluation
+TREC_DEMO_QRELS = {
+    "politics": {"AP890215-0001", "AP890401-0001", "AP890401-0002", "AP890501-0001", "AP890801-0001"},
+    "climate": {"AP880101-0001", "AP880101-0002", "AP880102-0001", "AP880201-0001"},
+    "health": {"AP890601-0001", "AP890601-0002"},
+    "factcheck": {"AP890501-0001", "AP890801-0001", "AP890401-0001"},
+    "economy": {"AP890216-0001"},
+    "tech": {"AP890301-0001"},
+    "media": {"AP890701-0001", "AP890701-0002"},
+}
+
 
 def initialize_system():
     """Initialize the credibility system (lazy loading)."""
@@ -304,9 +368,16 @@ def verify_endpoint():
                 
                 retrieved_ids = [e.doc_id for e in trec_result.evidences]
                 
-                # Use climate-related docs as "relevant" for demo evaluation
-                # In production, this would come from qrels files
-                relevant_ids = set(TREC_DEMO_CORPUS.keys())  # All docs as relevant pool
+                # Determine query topic from retrieved docs
+                topic_scores = {}
+                for doc_id in retrieved_ids:
+                    doc = TREC_DEMO_CORPUS.get(doc_id, {})
+                    topic = doc.get('topic', 'general')
+                    topic_scores[topic] = topic_scores.get(topic, 0) + 1
+                
+                # Best matching topic determines qrels
+                best_topic = max(topic_scores, key=topic_scores.get) if topic_scores else 'politics'
+                relevant_ids = TREC_DEMO_QRELS.get(best_topic, set(TREC_DEMO_CORPUS.keys()))
                 
                 # Compute IR metrics
                 k = len(retrieved_ids) if retrieved_ids else 1
@@ -318,8 +389,19 @@ def verify_endpoint():
                 relevance_dict = {doc: 1 for doc in relevant_ids}
                 ndcg = eval_metrics.ndcg_at_k(retrieved_ids, relevance_dict, k) if retrieved_ids else 0
                 
-                # TF-IDF score from top result
+                # BM25 score from top result
                 tfidf_score = trec_result.evidences[0].score if trec_result.evidences else 0
+                
+                # Evidence snippets for display
+                evidence_snippets = []
+                for ev in trec_result.evidences[:3]:
+                    doc_info = TREC_DEMO_CORPUS.get(ev.doc_id, {})
+                    evidence_snippets.append({
+                        'doc_id': ev.doc_id,
+                        'title': doc_info.get('title', ''),
+                        'score': round(ev.score, 4),
+                        'snippet': ev.text[:200] if ev.text else ''
+                    })
                 
                 result['trec_metrics'] = {
                     'precision': round(precision, 4),
@@ -330,9 +412,11 @@ def verify_endpoint():
                     'mrr': round(mrr, 4),
                     'retrieved_count': len(retrieved_ids),
                     'corpus_size': len(TREC_DEMO_CORPUS),
-                    'search_time_ms': round(search_time, 2)
+                    'search_time_ms': round(search_time, 2),
+                    'matched_topic': best_topic,
+                    'evidence_snippets': evidence_snippets
                 }
-                print(f"[SysCRED Backend] TREC: P={precision:.3f} R={recall:.3f} MAP={ap:.3f} NDCG={ndcg:.3f} MRR={mrr:.3f}")
+                print(f"[SysCRED Backend] TREC: P={precision:.3f} R={recall:.3f} MAP={ap:.3f} NDCG={ndcg:.3f} MRR={mrr:.3f} Topic={best_topic}")
         except Exception as e:
             print(f"[SysCRED Backend] TREC metrics error: {e}")
             result['trec_metrics'] = {'error': str(e)}

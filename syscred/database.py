@@ -38,17 +38,27 @@ class AnalysisResult(db.Model):
 
 def init_db(app):
     """Initialize the database with the Flask app."""
-    # Fallback to sqlite for local dev if no DATABASE_URL
-    db_url = os.environ.get('DATABASE_URL')
+    # Prefer SYSCRED_DATABASE_URL (pooler), then DATABASE_URL (direct)
+    db_url = os.environ.get('SYSCRED_DATABASE_URL') or os.environ.get('DATABASE_URL')
     if db_url and db_url.startswith("postgres://"):
         db_url = db_url.replace("postgres://", "postgresql://", 1)
     
-    app.config['SQLALCHEMY_DATABASE_URI'] = db_url or 'sqlite:///syscred.db'
+    # Fallback to SQLite in a writable directory
+    if not db_url:
+        import tempfile
+        db_path = os.path.join(tempfile.gettempdir(), 'syscred.db')
+        db_url = f'sqlite:///{db_path}'
+        print(f"[SysCRED-DB] No DATABASE_URL, using SQLite: {db_path}")
+    
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_url
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
     db.init_app(app)
     
     # Create tables if they don't exist (basic migration)
     with app.app_context():
-        db.create_all()
-        print("[SysCRED-DB] Database tables initialized.")
+        try:
+            db.create_all()
+            print("[SysCRED-DB] Database tables initialized.")
+        except Exception as e:
+            print(f"[SysCRED-DB] Warning: create_all failed: {e}")
