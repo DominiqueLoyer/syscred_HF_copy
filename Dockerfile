@@ -28,7 +28,7 @@ RUN python -m spacy download fr_core_news_md || true
 # Copy application code
 COPY syscred/ /app/syscred/
 COPY ontology/ /app/ontology/
-COPY .env /app/.env
+# NOTE: .env is NOT copied - HF Space uses Secrets instead
 
 # Make ontology directory writable (fix Permission denied for TTL export)
 RUN chmod -R 777 /app/ontology
