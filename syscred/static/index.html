@@ -1147,7 +1147,7 @@
                 const biasColor = biasScore > 0.5 ? '#ef4444' : biasScore > 0.3 ? '#eab308' : '#22c55e';
                 detailsHTML += `
                     <div class="detail-card">
-                        <div class="detail-label">⚖️ Analyse de Biais <span class="help-icon" title="Mesure si le texte contient un langage biaisé ou partisan">?</span></div>
+                        <div class="detail-label">⚖️ Analyse de Biais <span class="help-icon" onclick="event.stopPropagation(); showBiasExplainer()" title="Mesure si le texte contient un langage biaisé ou partisan">?</span></div>
                         <div class="detail-value" style="color: ${biasColor}">${biasLabel} (${(biasScore * 100).toFixed(0)}%)</div>
                     </div>
                 `;
@@ -1893,6 +1893,165 @@
         
         function closeExplainer() {
             document.getElementById('explainerModal').classList.remove('visible');
+        }
+        
+        function showEEATExplainer() {
+            if (!lastAnalysisData) {
+                alert('Analysez d\'abord une URL pour voir les explications.');
+                return;
+            }
+            
+            const modal = document.getElementById('explainerModal');
+            const body = document.getElementById('explainerBody');
+            
+            const eeatScores = lastAnalysisData.eeat_scores || {};
+            
+            let html = `
+                <div class="metric-explain" style="border-left-color: #3b82f6; background: rgba(59, 130, 246, 0.1);">
+                    <div class="metric-explain-header">
+                        <span class="metric-explain-icon">📊</span>
+                        <span class="metric-explain-name">E-E-A-T Score</span>
+                        <span class="metric-explain-value" style="color: #3b82f6; font-size: 1.5rem;">${((eeatScores.overall || 0) * 100).toFixed(0)}%</span>
+                    </div>
+                    <div class="metric-explain-simple">
+                        <strong>Experience, Expertise, Authoritativeness, Trustworthiness</strong><br><br>
+                        Ce sont les critères utilisés par Google pour évaluer la qualité du contenu.
+                    </div>
+                </div>
+            `;
+            
+            const eeatComponents = [
+                { key: 'experience', label: 'Experience', desc: 'L\'auteur a-t-il une expérience directe du sujet ?' },
+                { key: 'expertise', label: 'Expertise', desc: 'L\'auteur a-t-il des connaissances reconnues ?' },
+                { key: 'authority', label: 'Authoritativeness', desc: 'La source est-elle reconnue dans son domaine ?' },
+                { key: 'trust', label: 'Trustworthiness', desc: 'Le contenu est-il honnête et précis ?' }
+            ];
+            
+            eeatComponents.forEach(comp => {
+                const score = eeatScores[comp.key] || 0;
+                const color = score >= 0.7 ? '#22c55e' : score >= 0.4 ? '#eab308' : '#ef4444';
+                html += `
+                    <div class="metric-explain">
+                        <div class="metric-explain-header">
+                            <span class="metric-explain-icon">${score >= 0.7 ? '✅' : score >= 0.4 ? '⚠️' : '❌'}</span>
+                            <span class="metric-explain-name">${comp.label}</span>
+                            <span class="metric-explain-value" style="color: ${color}">${(score * 100).toFixed(0)}%</span>
+                        </div>
+                        <div class="metric-explain-simple">
+                            ${comp.desc}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            body.innerHTML = html;
+            modal.classList.add('visible');
+        }
+        
+        function showTRECExplainer() {
+            if (!lastAnalysisData) {
+                alert('Analysez d\'abord une URL pour voir les explications.');
+                return;
+            }
+            
+            const modal = document.getElementById('explainerModal');
+            const body = document.getElementById('explainerBody');
+            
+            const trecMetrics = lastAnalysisData.trec_metrics || {};
+            
+            let html = `
+                <div class="metric-explain" style="border-left-color: #8b5cf6; background: rgba(139, 92, 246, 0.1);">
+                    <div class="metric-explain-header">
+                        <span class="metric-explain-icon">🔍</span>
+                        <span class="metric-explain-name">Métriques TREC</span>
+                        <span class="metric-explain-value" style="color: #8b5cf6; font-size: 1.5rem;">IR</span>
+                    </div>
+                    <div class="metric-explain-simple">
+                        <strong>Information Retrieval Metrics</strong><br><br>
+                        Ces métriques mesurent la qualité de la récupération d'informations.
+                    </div>
+                </div>
+            `;
+            
+            const metrics = [
+                { key: 'precision', label: 'Precision', desc: 'Proportion de documents pertinents parmi ceux retrievés' },
+                { key: 'recall', label: 'Recall', desc: 'Proportion de documents pertinents récupérés sur le total' },
+                { key: 'map', label: 'MAP', desc: 'Mean Average Precision - qualité globale du ranking' },
+                { key: 'ndcg', label: 'NDCG', desc: 'Normalized DCG - pertinence normalisée' },
+                { key: 'mrr', label: 'MRR', desc: 'Mean Reciprocal Rank - rang de la première réponse pertinente' }
+            ];
+            
+            metrics.forEach(m => {
+                const val = trecMetrics[m.key];
+                const displayVal = typeof val === 'number' ? (m.key === 'precision' || m.key === 'recall' ? (val * 100).toFixed(1) + '%' : val.toFixed(3)) : '--';
+                html += `
+                    <div class="metric-explain">
+                        <div class="metric-explain-header">
+                            <span class="metric-explain-icon">📈</span>
+                            <span class="metric-explain-name">${m.label}</span>
+                            <span class="metric-explain-value" style="color: #8b5cf6">${displayVal}</span>
+                        </div>
+                        <div class="metric-explain-simple">
+                            ${m.desc}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            body.innerHTML = html;
+            modal.classList.add('visible');
+        }
+        
+        function showBiasExplainer() {
+            if (!lastAnalysisData) {
+                alert('Analysez d\'abord une URL pour voir les explications.');
+                return;
+            }
+            
+            const modal = document.getElementById('explainerModal');
+            const body = document.getElementById('explainerBody');
+            
+            const biasAnalysis = (lastAnalysisData.analyseNLP || {}).bias_analysis || {};
+            const biasScore = biasAnalysis.score || 0;
+            
+            let html = `
+                <div class="metric-explain" style="border-left-color: #f59e0b; background: rgba(245, 158, 11, 0.1);">
+                    <div class="metric-explain-header">
+                        <span class="metric-explain-icon">⚖️</span>
+                        <span class="metric-explain-name">Analyse de Biais</span>
+                        <span class="metric-explain-value" style="color: #f59e0b; font-size: 1.5rem;">${(biasScore * 100).toFixed(0)}%</span>
+                    </div>
+                    <div class="metric-explain-simple">
+                        <strong>Détection de parti pris</strong><br><br>
+                        Nous analysons si le texte contient un langage émotionnel, subjectif ou partisan.
+                    </div>
+                </div>
+            `;
+            
+            const indicators = [
+                { key: 'label', label: 'Label', desc: 'Classification du niveau de biais détecté' },
+                { key: 'score', label: 'Score', desc: 'Valeur entre 0 (pas de biais) et 1 (biais fort)' }
+            ];
+            
+            indicators.forEach(ind => {
+                let val = biasAnalysis[ind.key];
+                if (ind.key === 'score') val = (val * 100).toFixed(0) + '%';
+                html += `
+                    <div class="metric-explain">
+                        <div class="metric-explain-header">
+                            <span class="metric-explain-icon">📋</span>
+                            <span class="metric-explain-name">${ind.label}</span>
+                            <span class="metric-explain-value" style="color: #f59e0b">${val || '--'}</span>
+                        </div>
+                        <div class="metric-explain-simple">
+                            ${ind.desc}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            body.innerHTML = html;
+            modal.classList.add('visible');
         }
         
         // Close modal with Escape key
