@@ -663,29 +663,31 @@ cred1:Report_20260306_113852_1 a cred1:RapportEvaluation ;
     cred1:isReportOf cred1:Request_20260306_113852_1 ;
     cred1:reportSummary "L'analyse suggère une crédibilité FAIBLE à MOYENNE. Réputation source : N/A (User Input). 5 vérification(s) de faits trouvée(s)."^^xsd:string .
 
-cred1:Report_20260311_182414_2 a cred1:RapportEvaluation ;
-    rdfs:seeAlso cred1:Report_20260204_100557_15,
-        cred1:Report_20260223_183540_2,
-        cred1:Report_20260306_114514_2 ;
+cred1:Report_20260312_171844_5 a cred1:RapportEvaluation ;
+    rdfs:seeAlso cred1:Report_20260312_171458_2,
+        cred1:Report_20260312_171824_3,
+        cred1:Report_20260312_171835_4 ;
     cred1:assignsCredibilityLevel cred1:Niveau_Haut ;
-    cred1:completionTimestamp "2026-03-11T18:24:14.880067"^^xsd:dateTime ;
-    cred1:credibilityScoreValue "0.71"^^xsd:float ;
-    cred1:includesNLPResult cred1:NLPResult_20260311_182414_2 ;
-    cred1:includesSourceAnalysis cred1:SourceAnalysis_20260311_182414_2 ;
-    cred1:isReportOf cred1:Request_20260311_182414_2 ;
-    cred1:reportSummary "L'analyse suggère une crédibilité MOYENNE à ÉLEVÉE. Réputation source : High."^^xsd:string .
+    cred1:completionTimestamp "2026-03-12T17:18:44.025702"^^xsd:dateTime ;
+    cred1:credibilityScoreValue "0.79"^^xsd:float ;
+    cred1:includesNLPResult cred1:NLPResult_20260312_171844_5 ;
+    cred1:includesSourceAnalysis cred1:SourceAnalysis_20260312_171844_5 ;
+    cred1:isReportOf cred1:Request_20260312_171844_5 ;
+    cred1:reportSummary "L'analyse suggère une crédibilité ÉLEVÉE. Réputation source : High."^^xsd:string .
 
-cred1:Report_20260311_184524_2 a cred1:RapportEvaluation ;
-    rdfs:seeAlso cred1:Report_20260222_204742_1,
-        cred1:Report_20260311_182031_1,
-        cred1:Report_20260311_184421_1 ;
-    cred1:assignsCredibilityLevel cred1:Niveau_Moyen ;
-    cred1:completionTimestamp "2026-03-11T18:45:24.103580"^^xsd:dateTime ;
-    cred1:credibilityScoreValue "0.52"^^xsd:float ;
-    cred1:includesNLPResult cred1:NLPResult_20260311_184524_2 ;
-    cred1:includesSourceAnalysis cred1:SourceAnalysis_20260311_184524_2 ;
-    cred1:isReportOf cred1:Request_20260311_184524_2 ;
-    cred1:reportSummary "L'analyse suggère une crédibilité MOYENNE. Réputation source : N/A (User Input)."^^xsd:string .
+cred1:Report_20260312_173435_3 a cred1:RapportEvaluation ;
+    rdfs:seeAlso cred1:Report_20260312_171241_1,
+        cred1:Report_20260312_172849_1,
+        cred1:Report_20260312_173128_2 ;
+    cred1:assignsCredibilityLevel cred1:Niveau_Bas ;
+    cred1:basedOnEvidence cred1:Evidence_20260312_173435_3_0,
+        cred1:Evidence_20260312_173435_3_1 ;
+    cred1:completionTimestamp "2026-03-12T17:34:35.472790"^^xsd:dateTime ;
+    cred1:credibilityScoreValue "0.34"^^xsd:float ;
+    cred1:includesNLPResult cred1:NLPResult_20260312_173435_3 ;
+    cred1:includesSourceAnalysis cred1:SourceAnalysis_20260312_173435_3 ;
+    cred1:isReportOf cred1:Request_20260312_173435_3 ;
+    cred1:reportSummary "L'analyse suggère une crédibilité FAIBLE à MOYENNE. Réputation source : N/A (User Input). 2 vérification(s) de faits trouvée(s)."^^xsd:string .
 
 cred1:Evidence_20260129_173754_1_0 a cred1:Evidence,
         cred1:RefutingEvidence ;
@@ -1042,6 +1044,114 @@ cred1:Evidence_20260306_113852_1_4 a cred1:PreuveFactuelle ;
     cred1:evidenceSource "Science"^^xsd:string ;
     cred1:evidenceURL "https://science.feedback.org/review/viral-flat-earth-videos-miss-basic-geometry-when-comparing-antarcticas-perimeter-to-earths-circumference/"^^xsd:anyURI ;
     cred1:evidenceVerdict "Incorrect"^^xsd:string .
+
+cred1:Evidence_20260312_170617_1_0 a cred1:PreuveFactuelle ;
+    cred1:evidenceClaim "\"BREAKING: Bipartisan group of senators SINGLE OUT TRUMP for inciting the January 6th riots.\""^^xsd:string ;
+    cred1:evidenceSource "FactCheck.org"^^xsd:string ;
+    cred1:evidenceURL "https://www.factcheck.org/2021/06/facebook-post-misleads-on-bipartisan-capital-attack-report-and-interview/"^^xsd:anyURI ;
+    cred1:evidenceVerdict "Misleading"^^xsd:string .
+
+cred1:Evidence_20260312_170617_1_1 a cred1:PreuveFactuelle ;
+    cred1:evidenceClaim "President Trump has invoked the Insurrection Act and will remain in office \"indefinitely\" until \"all domestic enemies are arrested.\""^^xsd:string ;
+    cred1:evidenceSource "FactCheck.org"^^xsd:string ;
+    cred1:evidenceURL "https://www.factcheck.org/2021/01/false-claim-of-trump-invoking-insurrection-act/"^^xsd:anyURI ;
+    cred1:evidenceVerdict "False"^^xsd:string .
+
+cred1:Evidence_20260312_170617_1_2 a cred1:PreuveFactuelle ;
+    cred1:evidenceClaim "President Trump has signed the Insurrection Act and arrests have been made"^^xsd:string ;
+    cred1:evidenceSource "USA Today"^^xsd:string ;
+    cred1:evidenceURL "https://www.usatoday.com/story/news/factcheck/2021/01/14/fact-check-insurrection-act-not-effect-and-unnecessary-dc/4144961001/"^^xsd:anyURI ;
+    cred1:evidenceVerdict "False"^^xsd:string .
+
+cred1:Evidence_20260312_170617_1_3 a cred1:PreuveFactuelle ;
+    cred1:evidenceClaim "It has been officially confirmed that the Insurrection Act has been secretly signed by President Donald Trump."^^xsd:string ;
+    cred1:evidenceSource "AP News"^^xsd:string ;
+    cred1:evidenceURL "https://apnews.com/article/fact-checking-9881219261"^^xsd:anyURI ;
+    cred1:evidenceVerdict "False"^^xsd:string .
+
+cred1:Evidence_20260312_170617_1_4 a cred1:PreuveFactuelle ;
+    cred1:evidenceClaim "The FBI has cleared President Donald Trump “of any guilt, any connection” to the Jan. 6 attack on the Capitol."^^xsd:string ;
+    cred1:evidenceSource "AP News"^^xsd:string ;
+    cred1:evidenceURL "https://apnews.com/article/fact-checking-9920241957"^^xsd:anyURI ;
+    cred1:evidenceVerdict "False"^^xsd:string .
+
+cred1:Evidence_20260312_171241_1_0 a cred1:PreuveFactuelle ;
+    cred1:evidenceClaim "President Trump has invoked the Insurrection Act and will remain in office \"indefinitely\" until \"all domestic enemies are arrested.\""^^xsd:string ;
+    cred1:evidenceSource "FactCheck.org"^^xsd:string ;
+    cred1:evidenceURL "https://www.factcheck.org/2021/01/false-claim-of-trump-invoking-insurrection-act/"^^xsd:anyURI ;
+    cred1:evidenceVerdict "False"^^xsd:string .
+
+cred1:Evidence_20260312_171241_1_1 a cred1:PreuveFactuelle ;
+    cred1:evidenceClaim "President Trump has signed the Insurrection Act and arrests have been made"^^xsd:string ;
+    cred1:evidenceSource "USA Today"^^xsd:string ;
+    cred1:evidenceURL "https://www.usatoday.com/story/news/factcheck/2021/01/14/fact-check-insurrection-act-not-effect-and-unnecessary-dc/4144961001/"^^xsd:anyURI ;
+    cred1:evidenceVerdict "False"^^xsd:string .
+
+cred1:Evidence_20260312_171241_1_2 a cred1:PreuveFactuelle ;
+    cred1:evidenceClaim "\"Derrick Van Orden is one of the only members of Congress who participated in the deadly January 6th insurrection. He now serves in the building he tried to burn down.\""^^xsd:string ;
+    cred1:evidenceSource "PolitiFact"^^xsd:string ;
+    cred1:evidenceURL "https://www.politifact.com/factchecks/2023/oct/11/rebecca-cooke/van-orden-seen-at-jan-6-rally-but-theres-scant-evi/"^^xsd:anyURI ;
+    cred1:evidenceVerdict "Mostly False"^^xsd:string .
+
+cred1:Evidence_20260312_171241_1_3 a cred1:PreuveFactuelle ;
+    cred1:evidenceClaim "Says Jan. 6 Capitol riot “didn’t seem like an armed insurrection.”"^^xsd:string ;
+    cred1:evidenceSource "PolitiFact"^^xsd:string ;
+    cred1:evidenceURL "https://www.politifact.com/factchecks/2021/feb/15/ron-johnson/yes-jan-6-capitol-assault-was-armed-insurrection/"^^xsd:anyURI ;
+    cred1:evidenceVerdict "Pants on Fire"^^xsd:string .
+
+cred1:Evidence_20260312_171241_1_4 a cred1:PreuveFactuelle ;
+    cred1:evidenceClaim "Video clip shows Trump family celebrating during Capitol riot"^^xsd:string ;
+    cred1:evidenceSource "USA Today"^^xsd:string ;
+    cred1:evidenceURL "https://www.usatoday.com/story/news/factcheck/2021/01/11/fact-check-video-shows-trump-family-tent-before-jan-6-rally/6616490002/"^^xsd:anyURI ;
+    cred1:evidenceVerdict "False"^^xsd:string .
+
+cred1:Evidence_20260312_172849_1_0 a cred1:PreuveFactuelle ;
+    cred1:evidenceClaim "On Jan.6, 2021, \"Federal agents encouraged the violence that day. … That obviously happened.\""^^xsd:string ;
+    cred1:evidenceSource "FactCheck.org"^^xsd:string ;
+    cred1:evidenceURL "https://www.factcheck.org/2023/03/explaining-the-missing-context-of-tucker-carlsons-jan-6-presentation/"^^xsd:anyURI ;
+    cred1:evidenceVerdict "False"^^xsd:string .
+
+cred1:Evidence_20260312_172849_1_1 a cred1:PreuveFactuelle ;
+    cred1:evidenceClaim "\"Whatever happened to [U.S. Capitol Police Officer] Brian Sicknick was very obviously not the result of violence he suffered at the entrance to the Capitol.\""^^xsd:string ;
+    cred1:evidenceSource "FactCheck.org"^^xsd:string ;
+    cred1:evidenceURL "https://www.factcheck.org/2023/03/explaining-the-missing-context-of-tucker-carlsons-jan-6-presentation/"^^xsd:anyURI ;
+    cred1:evidenceVerdict "Disputed"^^xsd:string .
+
+cred1:Evidence_20260312_172849_1_2 a cred1:PreuveFactuelle ;
+    cred1:evidenceClaim "On Jan. 6, 2021 \"Capitol Police never stopped Jacob Chansley. They helped him. They acted as his tour guides.\""^^xsd:string ;
+    cred1:evidenceSource "FactCheck.org"^^xsd:string ;
+    cred1:evidenceURL "https://www.factcheck.org/2023/03/explaining-the-missing-context-of-tucker-carlsons-jan-6-presentation/"^^xsd:anyURI ;
+    cred1:evidenceVerdict "False"^^xsd:string .
+
+cred1:Evidence_20260312_172849_1_3 a cred1:PreuveFactuelle ;
+    cred1:evidenceClaim "Nancy Pelosi was in charge of Capitol Police on Jan. 6"^^xsd:string ;
+    cred1:evidenceSource "USA Today"^^xsd:string ;
+    cred1:evidenceURL "https://www.usatoday.com/story/news/factcheck/2021/07/27/fact-check-nancy-pelosi-isnt-in-charge-capitol-police/8082088002/"^^xsd:anyURI ;
+    cred1:evidenceVerdict "False"^^xsd:string .
+
+cred1:Evidence_20260312_173128_2_0 a cred1:PreuveFactuelle ;
+    cred1:evidenceClaim "President Trump has invoked the Insurrection Act and will remain in office \"indefinitely\" until \"all domestic enemies are arrested.\""^^xsd:string ;
+    cred1:evidenceSource "FactCheck.org"^^xsd:string ;
+    cred1:evidenceURL "https://www.factcheck.org/2021/01/false-claim-of-trump-invoking-insurrection-act/"^^xsd:anyURI ;
+    cred1:evidenceVerdict "False"^^xsd:string .
+
+cred1:Evidence_20260312_173128_2_1 a cred1:PreuveFactuelle ;
+    cred1:evidenceClaim "The FBI has cleared President Donald Trump “of any guilt, any connection” to the Jan. 6 attack on the Capitol."^^xsd:string ;
+    cred1:evidenceSource "AP News"^^xsd:string ;
+    cred1:evidenceURL "https://apnews.com/article/fact-checking-9920241957"^^xsd:anyURI ;
+    cred1:evidenceVerdict "False"^^xsd:string .
+
+cred1:Evidence_20260312_173435_3_0 a cred1:PreuveFactuelle ;
+    cred1:evidenceClaim "President Trump has invoked the Insurrection Act and will remain in office \"indefinitely\" until \"all domestic enemies are arrested.\""^^xsd:string ;
+    cred1:evidenceSource "FactCheck.org"^^xsd:string ;
+    cred1:evidenceURL "https://www.factcheck.org/2021/01/false-claim-of-trump-invoking-insurrection-act/"^^xsd:anyURI ;
+    cred1:evidenceVerdict "False"^^xsd:string .
+
+cred1:Evidence_20260312_173435_3_1 a cred1:PreuveFactuelle ;
+    cred1:evidenceClaim "The FBI has cleared President Donald Trump “of any guilt, any connection” to the Jan. 6 attack on the Capitol."^^xsd:string ;
+    cred1:evidenceSource "AP News"^^xsd:string ;
+    cred1:evidenceURL "https://apnews.com/article/fact-checking-9920241957"^^xsd:anyURI ;
+    cred1:evidenceVerdict "False"^^xsd:string .
 
 cred1:Info_20260128_084225_1 a cred1:InformationMoyenneCredibilite,
         cred1:InformationSoumise ;
@@ -1746,6 +1856,60 @@ cred1:Info_20260311_184524_2 a cred1:InformationMoyenneCredibilite,
         cred1:InformationSoumise ;
     cred1:informationContent "Donald Trump has stated that the January 6 insurrection never happened"^^xsd:string .
 
+cred1:Info_20260312_164658_1 a cred1:InformationHauteCredibilite,
+        cred1:InformationSoumise ;
+    cred1:informationContent "https://lemonde.fr"^^xsd:string ;
+    cred1:informationURL "https://lemonde.fr"^^xsd:anyURI .
+
+cred1:Info_20260312_164847_2 a cred1:InformationHauteCredibilite,
+        cred1:InformationSoumise ;
+    cred1:informationContent "https://lemonde.fr"^^xsd:string ;
+    cred1:informationURL "https://lemonde.fr"^^xsd:anyURI .
+
+cred1:Info_20260312_165831_3 a cred1:InformationMoyenneCredibilite,
+        cred1:InformationSoumise ;
+    cred1:informationContent "insurection on january 6 at the capitol never happened"^^xsd:string .
+
+cred1:Info_20260312_170617_1 a cred1:InformationFaibleCredibilite,
+        cred1:InformationSoumise ;
+    cred1:informationContent "insurection on january 6 never happened"^^xsd:string .
+
+cred1:Info_20260312_171241_1 a cred1:InformationFaibleCredibilite,
+        cred1:InformationSoumise ;
+    cred1:informationContent "insurection on january 6 never happened"^^xsd:string .
+
+cred1:Info_20260312_171458_2 a cred1:InformationHauteCredibilite,
+        cred1:InformationSoumise ;
+    cred1:informationContent "https://lemonde.fr"^^xsd:string ;
+    cred1:informationURL "https://lemonde.fr"^^xsd:anyURI .
+
+cred1:Info_20260312_171824_3 a cred1:InformationHauteCredibilite,
+        cred1:InformationSoumise ;
+    cred1:informationContent "https://www.lemonde.fr"^^xsd:string ;
+    cred1:informationURL "https://www.lemonde.fr"^^xsd:anyURI .
+
+cred1:Info_20260312_171835_4 a cred1:InformationHauteCredibilite,
+        cred1:InformationSoumise ;
+    cred1:informationContent "https://www.lemonde.fr"^^xsd:string ;
+    cred1:informationURL "https://www.lemonde.fr"^^xsd:anyURI .
+
+cred1:Info_20260312_171844_5 a cred1:InformationHauteCredibilite,
+        cred1:InformationSoumise ;
+    cred1:informationContent "https://www.lemonde.fr"^^xsd:string ;
+    cred1:informationURL "https://www.lemonde.fr"^^xsd:anyURI .
+
+cred1:Info_20260312_172849_1 a cred1:InformationFaibleCredibilite,
+        cred1:InformationSoumise ;
+    cred1:informationContent "insurection on january 6 at the capitol never happened"^^xsd:string .
+
+cred1:Info_20260312_173128_2 a cred1:InformationFaibleCredibilite,
+        cred1:InformationSoumise ;
+    cred1:informationContent "insurection on january 6 at the capitol never happened said Trump"^^xsd:string .
+
+cred1:Info_20260312_173435_3 a cred1:InformationFaibleCredibilite,
+        cred1:InformationSoumise ;
+    cred1:informationContent "insurection on january 6 at the capitol never happened said Trump"^^xsd:string .
+
 cred1:NLPResult_20260128_084225_1 a cred1:ResultatNLP ;
     cred1:coherenceScore "1.0"^^xsd:float .
 
@@ -2273,6 +2437,42 @@ cred1:NLPResult_20260311_184421_1 a cred1:ResultatNLP ;
 cred1:NLPResult_20260311_184524_2 a cred1:ResultatNLP ;
     cred1:coherenceScore "0.7"^^xsd:float .
 
+cred1:NLPResult_20260312_164658_1 a cred1:ResultatNLP ;
+    cred1:coherenceScore "0.6000000000000001"^^xsd:float .
+
+cred1:NLPResult_20260312_164847_2 a cred1:ResultatNLP ;
+    cred1:coherenceScore "0.6000000000000001"^^xsd:float .
+
+cred1:NLPResult_20260312_165831_3 a cred1:ResultatNLP ;
+    cred1:coherenceScore "0.7"^^xsd:float .
+
+cred1:NLPResult_20260312_170617_1 a cred1:ResultatNLP ;
+    cred1:coherenceScore "0.7"^^xsd:float .
+
+cred1:NLPResult_20260312_171241_1 a cred1:ResultatNLP ;
+    cred1:coherenceScore "0.7"^^xsd:float .
+
+cred1:NLPResult_20260312_171458_2 a cred1:ResultatNLP ;
+    cred1:coherenceScore "0.6000000000000001"^^xsd:float .
+
+cred1:NLPResult_20260312_171824_3 a cred1:ResultatNLP ;
+    cred1:coherenceScore "0.6000000000000001"^^xsd:float .
+
+cred1:NLPResult_20260312_171835_4 a cred1:ResultatNLP ;
+    cred1:coherenceScore "0.6000000000000001"^^xsd:float .
+
+cred1:NLPResult_20260312_171844_5 a cred1:ResultatNLP ;
+    cred1:coherenceScore "0.6000000000000001"^^xsd:float .
+
+cred1:NLPResult_20260312_172849_1 a cred1:ResultatNLP ;
+    cred1:coherenceScore "0.7"^^xsd:float .
+
+cred1:NLPResult_20260312_173128_2 a cred1:ResultatNLP ;
+    cred1:coherenceScore "0.7"^^xsd:float .
+
+cred1:NLPResult_20260312_173435_3 a cred1:ResultatNLP ;
+    cred1:coherenceScore "0.7"^^xsd:float .
+
 cred1:Report_20260203_110508_1 a cred1:RapportEvaluation ;
     cred1:assignsCredibilityLevel cred1:Niveau_Moyen ;
     cred1:completionTimestamp "2026-02-03T11:05:08.858969"^^xsd:dateTime ;
@@ -2615,35 +2815,31 @@ cred1:Report_20260204_100603_19 a cred1:RapportEvaluation ;
     cred1:isReportOf cred1:Request_20260204_100603_19 ;
     cred1:reportSummary "L'analyse suggère une crédibilité MOYENNE. Réputation source : N/A (User Input)."^^xsd:string .
 
-cred1:Report_20260223_183540_2 a cred1:RapportEvaluation ;
-    cred1:assignsCredibilityLevel cred1:Niveau_Moyen ;
-    cred1:completionTimestamp "2026-02-23T18:35:40.844268"^^xsd:dateTime ;
-    cred1:credibilityScoreValue "0.62"^^xsd:float ;
-    cred1:includesNLPResult cred1:NLPResult_20260223_183540_2 ;
-    cred1:includesSourceAnalysis cred1:SourceAnalysis_20260223_183540_2 ;
-    cred1:isReportOf cred1:Request_20260223_183540_2 ;
-    cred1:reportSummary "L'analyse suggère une crédibilité MOYENNE à ÉLEVÉE. Réputation source : High."^^xsd:string .
+cred1:Report_20260312_171835_4 a cred1:RapportEvaluation ;
+    rdfs:seeAlso cred1:Report_20260312_164847_2,
+        cred1:Report_20260312_171458_2,
+        cred1:Report_20260312_171824_3 ;
+    cred1:assignsCredibilityLevel cred1:Niveau_Haut ;
+    cred1:completionTimestamp "2026-03-12T17:18:35.039930"^^xsd:dateTime ;
+    cred1:credibilityScoreValue "0.79"^^xsd:float ;
+    cred1:includesNLPResult cred1:NLPResult_20260312_171835_4 ;
+    cred1:includesSourceAnalysis cred1:SourceAnalysis_20260312_171835_4 ;
+    cred1:isReportOf cred1:Request_20260312_171835_4 ;
+    cred1:reportSummary "L'analyse suggère une crédibilité ÉLEVÉE. Réputation source : High."^^xsd:string .
 
-cred1:Report_20260306_114514_2 a cred1:RapportEvaluation ;
-    cred1:assignsCredibilityLevel cred1:Niveau_Moyen ;
-    cred1:completionTimestamp "2026-03-06T11:45:14.300635"^^xsd:dateTime ;
-    cred1:credibilityScoreValue "0.61"^^xsd:float ;
-    cred1:includesNLPResult cred1:NLPResult_20260306_114514_2 ;
-    cred1:includesSourceAnalysis cred1:SourceAnalysis_20260306_114514_2 ;
-    cred1:isReportOf cred1:Request_20260306_114514_2 ;
-    cred1:reportSummary "L'analyse suggère une crédibilité MOYENNE à ÉLEVÉE. Réputation source : High."^^xsd:string .
-
-cred1:Report_20260311_184421_1 a cred1:RapportEvaluation ;
-    rdfs:seeAlso cred1:Report_20260204_121803_1,
-        cred1:Report_20260222_204742_1,
-        cred1:Report_20260311_182031_1 ;
-    cred1:assignsCredibilityLevel cred1:Niveau_Moyen ;
-    cred1:completionTimestamp "2026-03-11T18:44:21.394162"^^xsd:dateTime ;
-    cred1:credibilityScoreValue "0.52"^^xsd:float ;
-    cred1:includesNLPResult cred1:NLPResult_20260311_184421_1 ;
-    cred1:includesSourceAnalysis cred1:SourceAnalysis_20260311_184421_1 ;
-    cred1:isReportOf cred1:Request_20260311_184421_1 ;
-    cred1:reportSummary "L'analyse suggère une crédibilité MOYENNE. Réputation source : N/A (User Input)."^^xsd:string .
+cred1:Report_20260312_173128_2 a cred1:RapportEvaluation ;
+    rdfs:seeAlso cred1:Report_20260312_170617_1,
+        cred1:Report_20260312_171241_1,
+        cred1:Report_20260312_172849_1 ;
+    cred1:assignsCredibilityLevel cred1:Niveau_Bas ;
+    cred1:basedOnEvidence cred1:Evidence_20260312_173128_2_0,
+        cred1:Evidence_20260312_173128_2_1 ;
+    cred1:completionTimestamp "2026-03-12T17:31:28.550964"^^xsd:dateTime ;
+    cred1:credibilityScoreValue "0.34"^^xsd:float ;
+    cred1:includesNLPResult cred1:NLPResult_20260312_173128_2 ;
+    cred1:includesSourceAnalysis cred1:SourceAnalysis_20260312_173128_2 ;
+    cred1:isReportOf cred1:Request_20260312_173128_2 ;
+    cred1:reportSummary "L'analyse suggère une crédibilité FAIBLE à MOYENNE. Réputation source : N/A (User Input). 2 vérification(s) de faits trouvée(s)."^^xsd:string .
 
 cred1:Request_20260128_084225_1 a cred1:RequeteEvaluation ;
     cred1:concernsInformation cred1:Info_20260128_084225_1 ;
@@ -3510,6 +3706,66 @@ cred1:Request_20260311_184524_2 a cred1:RequeteEvaluation ;
     cred1:requestStatus "Completed"^^xsd:string ;
     cred1:submissionTimestamp "2026-03-11T18:45:24.103580"^^xsd:dateTime .
 
+cred1:Request_20260312_164658_1 a cred1:RequeteEvaluation ;
+    cred1:concernsInformation cred1:Info_20260312_164658_1 ;
+    cred1:requestStatus "Completed"^^xsd:string ;
+    cred1:submissionTimestamp "2026-03-12T16:46:58.922428"^^xsd:dateTime .
+
+cred1:Request_20260312_164847_2 a cred1:RequeteEvaluation ;
+    cred1:concernsInformation cred1:Info_20260312_164847_2 ;
+    cred1:requestStatus "Completed"^^xsd:string ;
+    cred1:submissionTimestamp "2026-03-12T16:48:47.537863"^^xsd:dateTime .
+
+cred1:Request_20260312_165831_3 a cred1:RequeteEvaluation ;
+    cred1:concernsInformation cred1:Info_20260312_165831_3 ;
+    cred1:requestStatus "Completed"^^xsd:string ;
+    cred1:submissionTimestamp "2026-03-12T16:58:31.012843"^^xsd:dateTime .
+
+cred1:Request_20260312_170617_1 a cred1:RequeteEvaluation ;
+    cred1:concernsInformation cred1:Info_20260312_170617_1 ;
+    cred1:requestStatus "Completed"^^xsd:string ;
+    cred1:submissionTimestamp "2026-03-12T17:06:17.979105"^^xsd:dateTime .
+
+cred1:Request_20260312_171241_1 a cred1:RequeteEvaluation ;
+    cred1:concernsInformation cred1:Info_20260312_171241_1 ;
+    cred1:requestStatus "Completed"^^xsd:string ;
+    cred1:submissionTimestamp "2026-03-12T17:12:41.725151"^^xsd:dateTime .
+
+cred1:Request_20260312_171458_2 a cred1:RequeteEvaluation ;
+    cred1:concernsInformation cred1:Info_20260312_171458_2 ;
+    cred1:requestStatus "Completed"^^xsd:string ;
+    cred1:submissionTimestamp "2026-03-12T17:14:58.383347"^^xsd:dateTime .
+
+cred1:Request_20260312_171824_3 a cred1:RequeteEvaluation ;
+    cred1:concernsInformation cred1:Info_20260312_171824_3 ;
+    cred1:requestStatus "Completed"^^xsd:string ;
+    cred1:submissionTimestamp "2026-03-12T17:18:24.626130"^^xsd:dateTime .
+
+cred1:Request_20260312_171835_4 a cred1:RequeteEvaluation ;
+    cred1:concernsInformation cred1:Info_20260312_171835_4 ;
+    cred1:requestStatus "Completed"^^xsd:string ;
+    cred1:submissionTimestamp "2026-03-12T17:18:35.039930"^^xsd:dateTime .
+
+cred1:Request_20260312_171844_5 a cred1:RequeteEvaluation ;
+    cred1:concernsInformation cred1:Info_20260312_171844_5 ;
+    cred1:requestStatus "Completed"^^xsd:string ;
+    cred1:submissionTimestamp "2026-03-12T17:18:44.025702"^^xsd:dateTime .
+
+cred1:Request_20260312_172849_1 a cred1:RequeteEvaluation ;
+    cred1:concernsInformation cred1:Info_20260312_172849_1 ;
+    cred1:requestStatus "Completed"^^xsd:string ;
+    cred1:submissionTimestamp "2026-03-12T17:28:49.370323"^^xsd:dateTime .
+
+cred1:Request_20260312_173128_2 a cred1:RequeteEvaluation ;
+    cred1:concernsInformation cred1:Info_20260312_173128_2 ;
+    cred1:requestStatus "Completed"^^xsd:string ;
+    cred1:submissionTimestamp "2026-03-12T17:31:28.550964"^^xsd:dateTime .
+
+cred1:Request_20260312_173435_3 a cred1:RequeteEvaluation ;
+    cred1:concernsInformation cred1:Info_20260312_173435_3 ;
+    cred1:requestStatus "Completed"^^xsd:string ;
+    cred1:submissionTimestamp "2026-03-12T17:34:35.472790"^^xsd:dateTime .
+
 cred1:SourceAnalysis_20260128_084225_1 a cred1:InfoSourceAnalyse ;
     cred1:sourceAnalyzedReputation "Unknown"^^xsd:string .
 
@@ -4029,6 +4285,42 @@ cred1:SourceAnalysis_20260311_184421_1 a cred1:InfoSourceAnalyse ;
 cred1:SourceAnalysis_20260311_184524_2 a cred1:InfoSourceAnalyse ;
     cred1:sourceAnalyzedReputation "N/A (User Input)"^^xsd:string .
 
+cred1:SourceAnalysis_20260312_164658_1 a cred1:InfoSourceAnalyse ;
+    cred1:sourceAnalyzedReputation "High"^^xsd:string .
+
+cred1:SourceAnalysis_20260312_164847_2 a cred1:InfoSourceAnalyse ;
+    cred1:sourceAnalyzedReputation "High"^^xsd:string .
+
+cred1:SourceAnalysis_20260312_165831_3 a cred1:InfoSourceAnalyse ;
+    cred1:sourceAnalyzedReputation "N/A (User Input)"^^xsd:string .
+
+cred1:SourceAnalysis_20260312_170617_1 a cred1:InfoSourceAnalyse ;
+    cred1:sourceAnalyzedReputation "N/A (User Input)"^^xsd:string .
+
+cred1:SourceAnalysis_20260312_171241_1 a cred1:InfoSourceAnalyse ;
+    cred1:sourceAnalyzedReputation "N/A (User Input)"^^xsd:string .
+
+cred1:SourceAnalysis_20260312_171458_2 a cred1:InfoSourceAnalyse ;
+    cred1:sourceAnalyzedReputation "High"^^xsd:string .
+
+cred1:SourceAnalysis_20260312_171824_3 a cred1:InfoSourceAnalyse ;
+    cred1:sourceAnalyzedReputation "High"^^xsd:string .
+
+cred1:SourceAnalysis_20260312_171835_4 a cred1:InfoSourceAnalyse ;
+    cred1:sourceAnalyzedReputation "High"^^xsd:string .
+
+cred1:SourceAnalysis_20260312_171844_5 a cred1:InfoSourceAnalyse ;
+    cred1:sourceAnalyzedReputation "High"^^xsd:string .
+
+cred1:SourceAnalysis_20260312_172849_1 a cred1:InfoSourceAnalyse ;
+    cred1:sourceAnalyzedReputation "N/A (User Input)"^^xsd:string .
+
+cred1:SourceAnalysis_20260312_173128_2 a cred1:InfoSourceAnalyse ;
+    cred1:sourceAnalyzedReputation "N/A (User Input)"^^xsd:string .
+
+cred1:SourceAnalysis_20260312_173435_3 a cred1:InfoSourceAnalyse ;
+    cred1:sourceAnalyzedReputation "N/A (User Input)"^^xsd:string .
+
 cred1:Report_20260130_142430_1 a cred1:RapportEvaluation ;
     rdfs:seeAlso cred1:Report_20260130_141312_1 ;
     cred1:assignsCredibilityLevel cred1:Niveau_Moyen ;
@@ -4399,17 +4691,42 @@ cred1:Report_20260204_121803_1 a cred1:RapportEvaluation ;
     cred1:isReportOf cred1:Request_20260204_121803_1 ;
     cred1:reportSummary "L'analyse suggère une crédibilité FAIBLE à MOYENNE. Réputation source : N/A (User Input). 1 vérification(s) de faits trouvée(s)."^^xsd:string .
 
-cred1:Report_20260311_182031_1 a cred1:RapportEvaluation ;
-    rdfs:seeAlso cred1:Report_20260204_100600_17,
-        cred1:Report_20260204_121803_1,
-        cred1:Report_20260222_204742_1 ;
+cred1:Report_20260223_183540_2 a cred1:RapportEvaluation ;
     cred1:assignsCredibilityLevel cred1:Niveau_Moyen ;
-    cred1:completionTimestamp "2026-03-11T18:20:31.902617"^^xsd:dateTime ;
-    cred1:credibilityScoreValue "0.52"^^xsd:float ;
-    cred1:includesNLPResult cred1:NLPResult_20260311_182031_1 ;
-    cred1:includesSourceAnalysis cred1:SourceAnalysis_20260311_182031_1 ;
-    cred1:isReportOf cred1:Request_20260311_182031_1 ;
-    cred1:reportSummary "L'analyse suggère une crédibilité MOYENNE. Réputation source : N/A (User Input)."^^xsd:string .
+    cred1:completionTimestamp "2026-02-23T18:35:40.844268"^^xsd:dateTime ;
+    cred1:credibilityScoreValue "0.62"^^xsd:float ;
+    cred1:includesNLPResult cred1:NLPResult_20260223_183540_2 ;
+    cred1:includesSourceAnalysis cred1:SourceAnalysis_20260223_183540_2 ;
+    cred1:isReportOf cred1:Request_20260223_183540_2 ;
+    cred1:reportSummary "L'analyse suggère une crédibilité MOYENNE à ÉLEVÉE. Réputation source : High."^^xsd:string .
+
+cred1:Report_20260312_171824_3 a cred1:RapportEvaluation ;
+    rdfs:seeAlso cred1:Report_20260312_164658_1,
+        cred1:Report_20260312_164847_2,
+        cred1:Report_20260312_171458_2 ;
+    cred1:assignsCredibilityLevel cred1:Niveau_Haut ;
+    cred1:completionTimestamp "2026-03-12T17:18:24.626130"^^xsd:dateTime ;
+    cred1:credibilityScoreValue "0.79"^^xsd:float ;
+    cred1:includesNLPResult cred1:NLPResult_20260312_171824_3 ;
+    cred1:includesSourceAnalysis cred1:SourceAnalysis_20260312_171824_3 ;
+    cred1:isReportOf cred1:Request_20260312_171824_3 ;
+    cred1:reportSummary "L'analyse suggère une crédibilité ÉLEVÉE. Réputation source : High."^^xsd:string .
+
+cred1:Report_20260312_172849_1 a cred1:RapportEvaluation ;
+    rdfs:seeAlso cred1:Report_20260312_165831_3,
+        cred1:Report_20260312_170617_1,
+        cred1:Report_20260312_171241_1 ;
+    cred1:assignsCredibilityLevel cred1:Niveau_Bas ;
+    cred1:basedOnEvidence cred1:Evidence_20260312_172849_1_0,
+        cred1:Evidence_20260312_172849_1_1,
+        cred1:Evidence_20260312_172849_1_2,
+        cred1:Evidence_20260312_172849_1_3 ;
+    cred1:completionTimestamp "2026-03-12T17:28:49.370323"^^xsd:dateTime ;
+    cred1:credibilityScoreValue "0.35"^^xsd:float ;
+    cred1:includesNLPResult cred1:NLPResult_20260312_172849_1 ;
+    cred1:includesSourceAnalysis cred1:SourceAnalysis_20260312_172849_1 ;
+    cred1:isReportOf cred1:Request_20260312_172849_1 ;
+    cred1:reportSummary "L'analyse suggère une crédibilité FAIBLE à MOYENNE. Réputation source : N/A (User Input). 4 vérification(s) de faits trouvée(s)."^^xsd:string .
 
 cred1:Report_20260130_141312_1 a cred1:RapportEvaluation ;
     cred1:assignsCredibilityLevel cred1:Niveau_Moyen ;
@@ -4614,6 +4931,145 @@ cred1:Report_20260222_204742_1 a cred1:RapportEvaluation ;
     cred1:includesSourceAnalysis cred1:SourceAnalysis_20260222_204742_1 ;
     cred1:isReportOf cred1:Request_20260222_204742_1 ;
     cred1:reportSummary "L'analyse suggère une crédibilité MOYENNE. Réputation source : N/A (User Input)."^^xsd:string .
+
+cred1:Report_20260306_114514_2 a cred1:RapportEvaluation ;
+    cred1:assignsCredibilityLevel cred1:Niveau_Moyen ;
+    cred1:completionTimestamp "2026-03-06T11:45:14.300635"^^xsd:dateTime ;
+    cred1:credibilityScoreValue "0.61"^^xsd:float ;
+    cred1:includesNLPResult cred1:NLPResult_20260306_114514_2 ;
+    cred1:includesSourceAnalysis cred1:SourceAnalysis_20260306_114514_2 ;
+    cred1:isReportOf cred1:Request_20260306_114514_2 ;
+    cred1:reportSummary "L'analyse suggère une crédibilité MOYENNE à ÉLEVÉE. Réputation source : High."^^xsd:string .
+
+cred1:Report_20260311_182031_1 a cred1:RapportEvaluation ;
+    rdfs:seeAlso cred1:Report_20260204_100600_17,
+        cred1:Report_20260204_121803_1,
+        cred1:Report_20260222_204742_1 ;
+    cred1:assignsCredibilityLevel cred1:Niveau_Moyen ;
+    cred1:completionTimestamp "2026-03-11T18:20:31.902617"^^xsd:dateTime ;
+    cred1:credibilityScoreValue "0.52"^^xsd:float ;
+    cred1:includesNLPResult cred1:NLPResult_20260311_182031_1 ;
+    cred1:includesSourceAnalysis cred1:SourceAnalysis_20260311_182031_1 ;
+    cred1:isReportOf cred1:Request_20260311_182031_1 ;
+    cred1:reportSummary "L'analyse suggère une crédibilité MOYENNE. Réputation source : N/A (User Input)."^^xsd:string .
+
+cred1:Report_20260311_182414_2 a cred1:RapportEvaluation ;
+    rdfs:seeAlso cred1:Report_20260204_100557_15,
+        cred1:Report_20260223_183540_2,
+        cred1:Report_20260306_114514_2 ;
+    cred1:assignsCredibilityLevel cred1:Niveau_Haut ;
+    cred1:completionTimestamp "2026-03-11T18:24:14.880067"^^xsd:dateTime ;
+    cred1:credibilityScoreValue "0.71"^^xsd:float ;
+    cred1:includesNLPResult cred1:NLPResult_20260311_182414_2 ;
+    cred1:includesSourceAnalysis cred1:SourceAnalysis_20260311_182414_2 ;
+    cred1:isReportOf cred1:Request_20260311_182414_2 ;
+    cred1:reportSummary "L'analyse suggère une crédibilité MOYENNE à ÉLEVÉE. Réputation source : High."^^xsd:string .
+
+cred1:Report_20260311_184421_1 a cred1:RapportEvaluation ;
+    rdfs:seeAlso cred1:Report_20260204_121803_1,
+        cred1:Report_20260222_204742_1,
+        cred1:Report_20260311_182031_1 ;
+    cred1:assignsCredibilityLevel cred1:Niveau_Moyen ;
+    cred1:completionTimestamp "2026-03-11T18:44:21.394162"^^xsd:dateTime ;
+    cred1:credibilityScoreValue "0.52"^^xsd:float ;
+    cred1:includesNLPResult cred1:NLPResult_20260311_184421_1 ;
+    cred1:includesSourceAnalysis cred1:SourceAnalysis_20260311_184421_1 ;
+    cred1:isReportOf cred1:Request_20260311_184421_1 ;
+    cred1:reportSummary "L'analyse suggère une crédibilité MOYENNE. Réputation source : N/A (User Input)."^^xsd:string .
+
+cred1:Report_20260311_184524_2 a cred1:RapportEvaluation ;
+    rdfs:seeAlso cred1:Report_20260222_204742_1,
+        cred1:Report_20260311_182031_1,
+        cred1:Report_20260311_184421_1 ;
+    cred1:assignsCredibilityLevel cred1:Niveau_Moyen ;
+    cred1:completionTimestamp "2026-03-11T18:45:24.103580"^^xsd:dateTime ;
+    cred1:credibilityScoreValue "0.52"^^xsd:float ;
+    cred1:includesNLPResult cred1:NLPResult_20260311_184524_2 ;
+    cred1:includesSourceAnalysis cred1:SourceAnalysis_20260311_184524_2 ;
+    cred1:isReportOf cred1:Request_20260311_184524_2 ;
+    cred1:reportSummary "L'analyse suggère une crédibilité MOYENNE. Réputation source : N/A (User Input)."^^xsd:string .
+
+cred1:Report_20260312_164658_1 a cred1:RapportEvaluation ;
+    rdfs:seeAlso cred1:Report_20260223_183540_2,
+        cred1:Report_20260306_114514_2,
+        cred1:Report_20260311_182414_2 ;
+    cred1:assignsCredibilityLevel cred1:Niveau_Haut ;
+    cred1:completionTimestamp "2026-03-12T16:46:58.922428"^^xsd:dateTime ;
+    cred1:credibilityScoreValue "0.73"^^xsd:float ;
+    cred1:includesNLPResult cred1:NLPResult_20260312_164658_1 ;
+    cred1:includesSourceAnalysis cred1:SourceAnalysis_20260312_164658_1 ;
+    cred1:isReportOf cred1:Request_20260312_164658_1 ;
+    cred1:reportSummary "L'analyse suggère une crédibilité MOYENNE à ÉLEVÉE. Réputation source : High."^^xsd:string .
+
+cred1:Report_20260312_164847_2 a cred1:RapportEvaluation ;
+    rdfs:seeAlso cred1:Report_20260306_114514_2,
+        cred1:Report_20260311_182414_2,
+        cred1:Report_20260312_164658_1 ;
+    cred1:assignsCredibilityLevel cred1:Niveau_Haut ;
+    cred1:completionTimestamp "2026-03-12T16:48:47.537863"^^xsd:dateTime ;
+    cred1:credibilityScoreValue "0.78"^^xsd:float ;
+    cred1:includesNLPResult cred1:NLPResult_20260312_164847_2 ;
+    cred1:includesSourceAnalysis cred1:SourceAnalysis_20260312_164847_2 ;
+    cred1:isReportOf cred1:Request_20260312_164847_2 ;
+    cred1:reportSummary "L'analyse suggère une crédibilité ÉLEVÉE. Réputation source : High."^^xsd:string .
+
+cred1:Report_20260312_165831_3 a cred1:RapportEvaluation ;
+    rdfs:seeAlso cred1:Report_20260311_182031_1,
+        cred1:Report_20260311_184421_1,
+        cred1:Report_20260311_184524_2 ;
+    cred1:assignsCredibilityLevel cred1:Niveau_Moyen ;
+    cred1:completionTimestamp "2026-03-12T16:58:31.012843"^^xsd:dateTime ;
+    cred1:credibilityScoreValue "0.53"^^xsd:float ;
+    cred1:includesNLPResult cred1:NLPResult_20260312_165831_3 ;
+    cred1:includesSourceAnalysis cred1:SourceAnalysis_20260312_165831_3 ;
+    cred1:isReportOf cred1:Request_20260312_165831_3 ;
+    cred1:reportSummary "L'analyse suggère une crédibilité MOYENNE. Réputation source : N/A (User Input)."^^xsd:string .
+
+cred1:Report_20260312_170617_1 a cred1:RapportEvaluation ;
+    rdfs:seeAlso cred1:Report_20260311_184421_1,
+        cred1:Report_20260311_184524_2,
+        cred1:Report_20260312_165831_3 ;
+    cred1:assignsCredibilityLevel cred1:Niveau_Bas ;
+    cred1:basedOnEvidence cred1:Evidence_20260312_170617_1_0,
+        cred1:Evidence_20260312_170617_1_1,
+        cred1:Evidence_20260312_170617_1_2,
+        cred1:Evidence_20260312_170617_1_3,
+        cred1:Evidence_20260312_170617_1_4 ;
+    cred1:completionTimestamp "2026-03-12T17:06:17.979105"^^xsd:dateTime ;
+    cred1:credibilityScoreValue "0.36"^^xsd:float ;
+    cred1:includesNLPResult cred1:NLPResult_20260312_170617_1 ;
+    cred1:includesSourceAnalysis cred1:SourceAnalysis_20260312_170617_1 ;
+    cred1:isReportOf cred1:Request_20260312_170617_1 ;
+    cred1:reportSummary "L'analyse suggère une crédibilité FAIBLE à MOYENNE. Réputation source : N/A (User Input). 5 vérification(s) de faits trouvée(s)."^^xsd:string .
+
+cred1:Report_20260312_171241_1 a cred1:RapportEvaluation ;
+    rdfs:seeAlso cred1:Report_20260311_184524_2,
+        cred1:Report_20260312_165831_3,
+        cred1:Report_20260312_170617_1 ;
+    cred1:assignsCredibilityLevel cred1:Niveau_Bas ;
+    cred1:basedOnEvidence cred1:Evidence_20260312_171241_1_0,
+        cred1:Evidence_20260312_171241_1_1,
+        cred1:Evidence_20260312_171241_1_2,
+        cred1:Evidence_20260312_171241_1_3,
+        cred1:Evidence_20260312_171241_1_4 ;
+    cred1:completionTimestamp "2026-03-12T17:12:41.725151"^^xsd:dateTime ;
+    cred1:credibilityScoreValue "0.35"^^xsd:float ;
+    cred1:includesNLPResult cred1:NLPResult_20260312_171241_1 ;
+    cred1:includesSourceAnalysis cred1:SourceAnalysis_20260312_171241_1 ;
+    cred1:isReportOf cred1:Request_20260312_171241_1 ;
+    cred1:reportSummary "L'analyse suggère une crédibilité FAIBLE à MOYENNE. Réputation source : N/A (User Input). 5 vérification(s) de faits trouvée(s)."^^xsd:string .
+
+cred1:Report_20260312_171458_2 a cred1:RapportEvaluation ;
+    rdfs:seeAlso cred1:Report_20260311_182414_2,
+        cred1:Report_20260312_164658_1,
+        cred1:Report_20260312_164847_2 ;
+    cred1:assignsCredibilityLevel cred1:Niveau_Haut ;
+    cred1:completionTimestamp "2026-03-12T17:14:58.383347"^^xsd:dateTime ;
+    cred1:credibilityScoreValue "0.74"^^xsd:float ;
+    cred1:includesNLPResult cred1:NLPResult_20260312_171458_2 ;
+    cred1:includesSourceAnalysis cred1:SourceAnalysis_20260312_171458_2 ;
+    cred1:isReportOf cred1:Request_20260312_171458_2 ;
+    cred1:reportSummary "L'analyse suggère une crédibilité MOYENNE à ÉLEVÉE. Réputation source : High."^^xsd:string .
 
 cred1:Report_20260203_110533_27 a cred1:RapportEvaluation ;
     rdfs:seeAlso cred1:Report_20260203_110529_24,

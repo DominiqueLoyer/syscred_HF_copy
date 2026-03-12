@@ -39,6 +39,9 @@ USER user
 ENV HOME=/home/user
 ENV PATH=/home/user/.local/bin:$PATH
 
+# Make ontology directory writable for GraphRAG persistence
+RUN chmod -R 777 /app/ontology || true
+
 WORKDIR /app
 
 # HF Spaces uses port 7860
