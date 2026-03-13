@@ -69,12 +69,13 @@ except ImportError as e:
 
 # Database (optional)
 try:
-    from syscred.database import init_db, db, AnalysisResult
+    from syscred.database import init_db, db, AnalysisResult, get_supabase
     DB_AVAILABLE = True
     print("[SysCRED Backend] Database module loaded")
 except ImportError as e:
     print(f"[SysCRED Backend] Database disabled: {e}")
     def init_db(app): pass
+    def get_supabase(): return None
 
 # TREC modules (optional)
 try:
