@@ -78,6 +78,50 @@ class SupabaseClient:
         except Exception as e:
             print(f"[Supabase REST] Count error: {e}")
             return 0
+    
+    def upsert_source(self, domain, reputation_score, analysis_count=1):
+        """Insert or update a source (domain) in sources table."""
+        try:
+            # First check if source exists
+            existing = self.select('sources', {'domain': f'eq.{domain}'})
+            
+            if existing:
+                # Update existing source
+                current = existing[0]
+                new_count = current.get('analysis_count', 0) + analysis_count
+                
+                # Use PATCH to update
+                response = requests.patch(
+                    f"{self.url}/rest/v1/sources?domain=eq.{domain}",
+                    json={
+                        'reputation_score': reputation_score,
+                        'analysis_count': new_count
+                    },
+                    headers=self.headers
+                )
+                if response.status_code in [200, 204]:
+                    print(f"[Supabase] Updated source: {domain} (count: {new_count})")
+                    return True
+            else:
+                # Insert new source
+                response = requests.post(
+                    f"{self.url}/rest/v1/sources",
+                    json={
+                        'domain': domain,
+                        'reputation_score': reputation_score,
+                        'analysis_count': analysis_count
+                    },
+                    headers=self.headers
+                )
+                if response.status_code in [200, 201]:
+                    print(f"[Supabase] Inserted new source: {domain}")
+                    return True
+            
+            print(f"[Supabase] Source upsert failed: {response.status_code} - {response.text[:100]}")
+            return False
+        except Exception as e:
+            print(f"[Supabase REST] Upsert source error: {e}")
+            return False
 
 
 # Global Supabase client

@@ -424,12 +424,23 @@ def verify_endpoint():
         
         # [NEW] Persist to Database (SQLite + Supabase REST)
         try:
+            # Extract domain for sources table
+            domain = None
+            if credibility_system and credibility_system.is_url(input_data):
+                try:
+                    from urllib.parse import urlparse
+                    domain = urlparse(input_data).netloc
+                except:
+                    pass
+            
+            source_reputation = result.get('detailsScore', {}).get('factors', [{}])[0].get('value')
+            
             # Save to SQLite
             new_analysis = AnalysisResult(
                 url=input_data[:500],
                 credibility_score=result.get('scoreCredibilite', 0.5),
                 summary=result.get('resumeAnalyse', ''),
-                source_reputation=result.get('detailsScore', {}).get('factors', [{}])[0].get('value')
+                source_reputation=source_reputation
             )
             db.session.add(new_analysis)
             db.session.commit()
@@ -444,9 +455,22 @@ def verify_endpoint():
                         'url': input_data[:500],
                         'credibility_score': result.get('scoreCredibilite', 0.5),
                         'summary': result.get('resumeAnalyse', ''),
-                        'source_reputation': result.get('detailsScore', {}).get('factors', [{}])[0].get('value')
+                        'source_reputation': source_reputation
                     })
                     print(f"[SysCRED-DB] Result synced to Supabase")
+                    
+                    # Sync source (domain)
+                    if domain and source_reputation:
+                        # Convert reputation to numeric score
+                        rep_score = 0.5
+                        if source_reputation in ['High', 'high', '5 found']:
+                            rep_score = 0.8
+                        elif source_reputation in ['Medium', 'medium']:
+                            rep_score = 0.5
+                        elif source_reputation in ['Low', 'low', 'Unknown']:
+                            rep_score = 0.2
+                        
+                        supabase.upsert_source(domain, rep_score)
             except Exception as supabase_err:
                 print(f"[SysCRED-DB] Supabase sync failed: {supabase_err}")
                 
