@@ -15,7 +15,10 @@ db = SQLAlchemy()
 
 # Supabase REST API configuration
 SUPABASE_URL = os.environ.get('SUPABASE_URL', 'https://zmluirvqfkmfazqitqgi.supabase.co')
-SUPABASE_KEY = os.environ.get('SUPABASE_KEY', os.environ.get('SUPABASE_SERVICE_ROLE_KEY', ''))
+# Use service role key for insert operations (SUPABASE_SECRET_KEY in HF Secrets)
+SUPABASE_KEY = os.environ.get('SUPABASE_SECRET_KEY', os.environ.get('SUPABASE_SERVICE_ROLE_KEY', ''))
+# Fallback to anon key for read operations
+SUPABASE_ANON_KEY = os.environ.get('SUPABASE_KEY', '')
 
 class SupabaseClient:
     """REST API client for Supabase (PostgREST)."""
@@ -38,6 +41,8 @@ class SupabaseClient:
                 json=data,
                 headers=self.headers
             )
+            if response.status_code not in [200, 201, 204]:
+                print(f"[Supabase REST] Insert failed: {response.status_code} - {response.text[:200]}")
             return response.status_code in [200, 201, 204]
         except Exception as e:
             print(f"[Supabase REST] Insert error: {e}")
