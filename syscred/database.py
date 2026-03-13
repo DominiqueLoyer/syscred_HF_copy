@@ -38,8 +38,9 @@ class AnalysisResult(db.Model):
 
 def init_db(app):
     """Initialize the database with the Flask app."""
-    # Prefer SYSCRED_DATABASE_URL (pooler), then DATABASE_URL (direct)
-    db_url = os.environ.get('SYSCRED_DATABASE_URL') or os.environ.get('DATABASE_URL')
+    # Prefer DATABASE_URL (direct connection), then SYSCRED_DATABASE_URL (pooler)
+    # HF Spaces often can't resolve the pooler hostname
+    db_url = os.environ.get('DATABASE_URL') or os.environ.get('SYSCRED_DATABASE_URL')
     if db_url and db_url.startswith("postgres://"):
         db_url = db_url.replace("postgres://", "postgresql://", 1)
     
