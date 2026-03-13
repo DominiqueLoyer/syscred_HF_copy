@@ -421,8 +421,9 @@ def verify_endpoint():
             print(f"[SysCRED Backend] TREC metrics error: {e}")
             result['trec_metrics'] = {'error': str(e)}
         
-        # [NEW] Persist to Database
+        # [NEW] Persist to Database (SQLite + Supabase REST)
         try:
+            # Save to SQLite
             new_analysis = AnalysisResult(
                 url=input_data[:500],
                 credibility_score=result.get('scoreCredibilite', 0.5),
@@ -431,7 +432,23 @@ def verify_endpoint():
             )
             db.session.add(new_analysis)
             db.session.commit()
-            print(f"[SysCRED-DB] Result saved. ID: {new_analysis.id}")
+            print(f"[SysCRED-DB] Result saved to SQLite. ID: {new_analysis.id}")
+            
+            # Also save to Supabase via REST API
+            try:
+                from syscred.database import get_supabase
+                supabase = get_supabase()
+                if supabase:
+                    supabase.insert('analysis_results', {
+                        'url': input_data[:500],
+                        'credibility_score': result.get('scoreCredibilite', 0.5),
+                        'summary': result.get('resumeAnalyse', ''),
+                        'source_reputation': result.get('detailsScore', {}).get('factors', [{}])[0].get('value')
+                    })
+                    print(f"[SysCRED-DB] Result synced to Supabase")
+            except Exception as supabase_err:
+                print(f"[SysCRED-DB] Supabase sync failed: {supabase_err}")
+                
         except Exception as e:
             print(f"[SysCRED-DB] Save failed: {e}")
 
