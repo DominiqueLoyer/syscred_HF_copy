@@ -24,6 +24,8 @@ A hybrid neuro-symbolic system for credibility verification and fact-checking.
 **Dominique S. Loyer** - UQAM
 
 ## Usage
+
+```bash
 Enter a URL or paste text to analyze its credibility score based on multiple factors.
 systemFactChecking_Production/
 ├── src/
@@ -106,3 +108,7 @@ systemFactChecking_Production/
 ├── .env.example
 ├── .gitignore                      ← Mis à jour avec data/large
 └── README.md                       ← Mis à jour
+
+```
+
+
