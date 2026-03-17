@@ -845,39 +845,77 @@
                 </div>
             </div>
 
-            <!-- TREC IR METRICS SECTION -->
-            <div class="trec-section" id="trecSection" style="display: none; background: rgba(139, 92, 246, 0.05); border: 1px solid rgba(139, 92, 246, 0.2); border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem;">
-                <div class="summary-title" style="margin-bottom: 1rem; color: #8b5cf6;">
+            <!-- TREC IR METRICS SECTION (Enhanced) -->
+            <div class="trec-section" id="trecSection" style="display: none; background: linear-gradient(135deg, rgba(139, 92, 246, 0.06) 0%, rgba(99, 102, 241, 0.04) 100%); border: 1px solid rgba(139, 92, 246, 0.2); border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem; position: relative; overflow: hidden;">
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, #7c3aed, #8b5cf6, #a78bfa, #6366f1); opacity: 0.8;"></div>
+                <div class="summary-title" style="margin-bottom: 0.5rem; color: #8b5cf6; display: flex; align-items: center; gap: 0.5rem;">
                     📈 Métriques IR (TREC)
-                    <span class="help-icon" onclick="event.stopPropagation(); showTRECExplainer()" title="Information Retrieval metrics from TREC evaluation">?</span>
+                    <span class="help-icon" onclick="event.stopPropagation(); showTRECExplainer()" title="Cliquez pour voir les détails IR">?</span>
+                    <span id="trecCorpusInfo" style="margin-left: auto; font-size: 0.7rem; color: #6b6b8a; font-weight: 400;">Corpus: -- docs</span>
                 </div>
-                <p style="color: #8b8ba7; font-size: 0.9rem; margin-bottom: 1rem;">Métriques d'évaluation de recherche d'information</p>
-                
-                <div class="trec-metrics-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem;">
-                    <div class="trec-metric-card" style="background: rgba(255,255,255,0.02); border-radius: 10px; padding: 1rem; text-align: center;">
-                        <div style="font-size: 0.8rem; color: #8b8ba7; margin-bottom: 0.5rem;">Precision</div>
-                        <div id="trecPrecision" style="font-size: 1.5rem; font-weight: 700; color: #a78bfa;">--</div>
+                <p style="color: #8b8ba7; font-size: 0.85rem; margin-bottom: 1.25rem;">Évaluation de la récupération d'information — <em>Cliquez</em> <strong style="color:#a78bfa">?</strong> <em>pour l'analyse IR détaillée</em></p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                    <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(139,92,246,0.1); border-radius: 10px; padding: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <span style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #8b8ba7;">Precision</span>
+                            <span id="trecPrecision" style="font-size: 0.85rem; font-weight: 700; color: #c4b5fd;">--</span>
+                        </div>
+                        <div style="height: 6px; background: rgba(139,92,246,0.1); border-radius: 3px; overflow: hidden;">
+                            <div id="trecPrecisionBar" style="height: 100%; width: 0%; background: linear-gradient(90deg, #7c3aed, #a78bfa); border-radius: 3px; transition: width 0.7s ease-out;"></div>
+                        </div>
                     </div>
-                    <div class="trec-metric-card" style="background: rgba(255,255,255,0.02); border-radius: 10px; padding: 1rem; text-align: center;">
-                        <div style="font-size: 0.8rem; color: #8b8ba7; margin-bottom: 0.5rem;">Recall</div>
-                        <div id="trecRecall" style="font-size: 1.5rem; font-weight: 700; color: #a78bfa;">--</div>
+                    <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(139,92,246,0.1); border-radius: 10px; padding: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <span style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #8b8ba7;">Recall</span>
+                            <span id="trecRecall" style="font-size: 0.85rem; font-weight: 700; color: #c4b5fd;">--</span>
+                        </div>
+                        <div style="height: 6px; background: rgba(139,92,246,0.1); border-radius: 3px; overflow: hidden;">
+                            <div id="trecRecallBar" style="height: 100%; width: 0%; background: linear-gradient(90deg, #8b5cf6, #c084fc); border-radius: 3px; transition: width 0.7s ease-out;"></div>
+                        </div>
                     </div>
-                    <div class="trec-metric-card" style="background: rgba(255,255,255,0.02); border-radius: 10px; padding: 1rem; text-align: center;">
-                        <div style="font-size: 0.8rem; color: #8b8ba7; margin-bottom: 0.5rem;">MAP</div>
-                        <div id="trecMAP" style="font-size: 1.5rem; font-weight: 700; color: #a78bfa;">--</div>
+                    <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(139,92,246,0.1); border-radius: 10px; padding: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <span style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #8b8ba7;">MAP</span>
+                            <span id="trecMAP" style="font-size: 0.85rem; font-weight: 700; color: #c4b5fd;">--</span>
+                        </div>
+                        <div style="height: 6px; background: rgba(139,92,246,0.1); border-radius: 3px; overflow: hidden;">
+                            <div id="trecMAPBar" style="height: 100%; width: 0%; background: linear-gradient(90deg, #6366f1, #818cf8); border-radius: 3px; transition: width 0.7s ease-out;"></div>
+                        </div>
                     </div>
-                    <div class="trec-metric-card" style="background: rgba(255,255,255,0.02); border-radius: 10px; padding: 1rem; text-align: center;">
-                        <div style="font-size: 0.8rem; color: #8b8ba7; margin-bottom: 0.5rem;">NDCG</div>
-                        <div id="trecNDCG" style="font-size: 1.5rem; font-weight: 700; color: #a78bfa;">--</div>
+                    <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(139,92,246,0.1); border-radius: 10px; padding: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <span style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #8b8ba7;">NDCG</span>
+                            <span id="trecNDCG" style="font-size: 0.85rem; font-weight: 700; color: #c4b5fd;">--</span>
+                        </div>
+                        <div style="height: 6px; background: rgba(139,92,246,0.1); border-radius: 3px; overflow: hidden;">
+                            <div id="trecNDCGBar" style="height: 100%; width: 0%; background: linear-gradient(90deg, #a855f7, #d946ef); border-radius: 3px; transition: width 0.7s ease-out;"></div>
+                        </div>
                     </div>
-                    <div class="trec-metric-card" style="background: rgba(255,255,255,0.02); border-radius: 10px; padding: 1rem; text-align: center;">
-                        <div style="font-size: 0.8rem; color: #8b8ba7; margin-bottom: 0.5rem;">TF-IDF Score</div>
-                        <div id="trecTFIDF" style="font-size: 1.5rem; font-weight: 700; color: #a78bfa;">--</div>
+                    <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(139,92,246,0.1); border-radius: 10px; padding: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <span style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #8b8ba7;">BM25 Score</span>
+                            <span id="trecTFIDF" style="font-size: 0.85rem; font-weight: 700; color: #c4b5fd;">--</span>
+                        </div>
+                        <div style="height: 6px; background: rgba(139,92,246,0.1); border-radius: 3px; overflow: hidden;">
+                            <div id="trecTFIDFBar" style="height: 100%; width: 0%; background: linear-gradient(90deg, #ec4899, #f472b6); border-radius: 3px; transition: width 0.7s ease-out;"></div>
+                        </div>
                     </div>
-                    <div class="trec-metric-card" style="background: rgba(255,255,255,0.02); border-radius: 10px; padding: 1rem; text-align: center;">
-                        <div style="font-size: 0.8rem; color: #8b8ba7; margin-bottom: 0.5rem;">MRR</div>
-                        <div id="trecMRR" style="font-size: 1.5rem; font-weight: 700; color: #a78bfa;">--</div>
+                    <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(139,92,246,0.1); border-radius: 10px; padding: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <span style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #8b8ba7;">MRR</span>
+                            <span id="trecMRR" style="font-size: 0.85rem; font-weight: 700; color: #c4b5fd;">--</span>
+                        </div>
+                        <div style="height: 6px; background: rgba(139,92,246,0.1); border-radius: 3px; overflow: hidden;">
+                            <div id="trecMRRBar" style="height: 100%; width: 0%; background: linear-gradient(90deg, #f97316, #fb923c); border-radius: 3px; transition: width 0.7s ease-out;"></div>
+                        </div>
                     </div>
+                </div>
+                <div id="trecEvidences" style="display: none; margin-top: 1.5rem; border-top: 1px solid rgba(139, 92, 246, 0.15); padding-top: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                        <span style="font-size: 0.9rem; font-weight: 600; color: #a78bfa;">📄 Documents Retrouvés</span>
+                        <span id="trecSearchTime" style="margin-left: auto; font-size: 0.7rem; color: #6b6b8a;"></span>
+                    </div>
+                    <div id="trecEvidenceList" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
                 </div>
             </div>
 
@@ -1287,35 +1325,78 @@
             if (trecData) {
                 trecSection.style.display = 'block';
                 
-                // Precision
-                const precision = trecData.precision || trecData.P_10 || 0;
-                document.getElementById('trecPrecision').textContent = 
-                    typeof precision === 'number' ? (precision * 100).toFixed(1) + '%' : '--';
+                // Store for explainer modal
+                window._lastTrecData = trecData;
                 
-                // Recall
-                const recall = trecData.recall || trecData.recall_100 || 0;
-                document.getElementById('trecRecall').textContent = 
-                    typeof recall === 'number' ? (recall * 100).toFixed(1) + '%' : '--';
+                // Corpus info
+                const corpusInfo = document.getElementById('trecCorpusInfo');
+                if (corpusInfo && trecData.corpus_size) {
+                    corpusInfo.textContent = `Corpus: ${trecData.corpus_size} docs`;
+                }
                 
-                // MAP
-                const map = trecData.map || trecData.MAP || 0;
-                document.getElementById('trecMAP').textContent = 
-                    typeof map === 'number' ? map.toFixed(3) : '--';
+                // Helper: update metric + progress bar
+                const setMetricBar = (id, value, isPercent) => {
+                    const el = document.getElementById(id);
+                    const bar = document.getElementById(id + 'Bar');
+                    if (!el) return;
+                    if (typeof value !== 'number') { el.textContent = '--'; return; }
+                    el.textContent = isPercent ? (value * 100).toFixed(1) + '%' : value.toFixed(3);
+                    if (bar) {
+                        const pct = isPercent ? (value * 100) : Math.min(100, value * 100);
+                        setTimeout(() => { bar.style.width = pct + '%'; }, 100);
+                    }
+                };
                 
-                // NDCG
-                const ndcg = trecData.ndcg || trecData.NDCG || 0;
-                document.getElementById('trecNDCG').textContent = 
-                    typeof ndcg === 'number' ? ndcg.toFixed(3) : '--';
+                setMetricBar('trecPrecision', trecData.precision || trecData.P_10 || 0, true);
+                setMetricBar('trecRecall', trecData.recall || trecData.recall_100 || 0, true);
+                setMetricBar('trecMAP', trecData.map || trecData.MAP || 0, false);
+                setMetricBar('trecNDCG', trecData.ndcg || trecData.NDCG || 0, false);
+                setMetricBar('trecMRR', trecData.mrr || trecData.recip_rank || trecData.MRR || 0, false);
                 
-                // TF-IDF
-                const tfidf = trecData.tfidf || trecData.tfidf_score || trecData.TF_IDF || 0;
-                document.getElementById('trecTFIDF').textContent = 
-                    typeof tfidf === 'number' ? tfidf.toFixed(3) : '--';
+                // BM25 score (normalize for bar: cap at 10 = 100%)
+                const bm25 = trecData.tfidf || trecData.tfidf_score || trecData.TF_IDF || 0;
+                const bm25El = document.getElementById('trecTFIDF');
+                const bm25Bar = document.getElementById('trecTFIDFBar');
+                if (bm25El) bm25El.textContent = typeof bm25 === 'number' ? bm25.toFixed(3) : '--';
+                if (bm25Bar) setTimeout(() => { bm25Bar.style.width = Math.min(100, (bm25 / 10) * 100) + '%'; }, 100);
                 
-                // MRR (Mean Reciprocal Rank)
-                const mrr = trecData.mrr || trecData.recip_rank || trecData.MRR || 0;
-                document.getElementById('trecMRR').textContent = 
-                    typeof mrr === 'number' ? mrr.toFixed(3) : '--';
+                // Search time
+                const searchTimeEl = document.getElementById('trecSearchTime');
+                if (searchTimeEl && trecData.search_time_ms) {
+                    searchTimeEl.textContent = `⚡ ${trecData.search_time_ms.toFixed(1)}ms`;
+                }
+                
+                // Evidence Snippets with rank badges
+                const evidenceSnippets = trecData.evidence_snippets || data.trec_evidences || [];
+                const evidenceContainer = document.getElementById('trecEvidences');
+                const evidenceList = document.getElementById('trecEvidenceList');
+                
+                if (evidenceSnippets.length > 0) {
+                    evidenceContainer.style.display = 'block';
+                    let evidenceHTML = '';
+                    evidenceSnippets.forEach((ev, idx) => {
+                        const title = ev.title || ev.doc_id || 'Document';
+                        const score = ev.score ? ev.score.toFixed(4) : '0';
+                        const snippet = ev.snippet || ev.text || '';
+                        const barWidth = Math.min(100, (ev.score / (bm25 || 1)) * 100);
+                        evidenceHTML += `
+                            <div style="background: rgba(139, 92, 246, 0.04); border: 1px solid rgba(139, 92, 246, 0.1); border-radius: 10px; padding: 0.75rem; position: relative; overflow: hidden;">
+                                <div style="position: absolute; top: 0; left: 0; width: ${barWidth}%; height: 2px; background: linear-gradient(90deg, #7c3aed, #a78bfa); opacity: 0.5;"></div>
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                        <span style="background: rgba(139, 92, 246, 0.15); color: #a78bfa; padding: 2px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: 700; font-family: monospace;">R#${idx + 1}</span>
+                                        <span style="font-weight: 600; color: #c4b5fd; font-size: 0.85rem;">${title}</span>
+                                    </div>
+                                    <span style="background: rgba(139, 92, 246, 0.2); color: #a78bfa; padding: 2px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 600;">BM25: ${score}</span>
+                                </div>
+                                <p style="color: #8b8ba7; font-size: 0.8rem; margin: 0; line-height: 1.4;">${snippet.substring(0, 200)}${snippet.length > 200 ? '...' : ''}</p>
+                            </div>
+                        `;
+                    });
+                    evidenceList.innerHTML = evidenceHTML;
+                } else {
+                    evidenceContainer.style.display = 'none';
+                }
             } else {
                 trecSection.style.display = 'none';
             }
@@ -1949,54 +2030,151 @@
         }
         
         function showTRECExplainer() {
-            if (!lastAnalysisData) {
-                alert('Analysez d\'abord une URL pour voir les explications.');
-                return;
-            }
-            
             const modal = document.getElementById('explainerModal');
             const body = document.getElementById('explainerBody');
             
-            const trecMetrics = lastAnalysisData.trec_metrics || {};
+            const td = window._lastTrecData || (lastAnalysisData ? lastAnalysisData.trec_metrics : null) || {};
+            
+            // Helper: generate a mini progress bar in HTML
+            const miniBar = (val, max, color) => {
+                const pct = Math.min(100, (val / max) * 100);
+                return `<div style="height: 6px; background: rgba(139,92,246,0.1); border-radius: 3px; overflow: hidden; margin-top: 6px;">
+                    <div style="height: 100%; width: ${pct}%; background: ${color}; border-radius: 3px; transition: width 0.5s;"></div>
+                </div>`;
+            };
+            
+            // Quality assessment
+            const precision = td.precision || 0;
+            const recall = td.recall || 0;
+            const map = td.map || 0;
+            const ndcg = td.ndcg || 0;
+            const mrr = td.mrr || 0;
+            const bm25 = td.tfidf_score || td.tfidf || 0;
+            const avgScore = (precision + recall + map + ndcg + mrr) / 5;
+            let qualityLabel, qualityColor, qualityIcon;
+            if (avgScore >= 0.7) { qualityLabel = 'Excellente'; qualityColor = '#10b981'; qualityIcon = '🟢'; }
+            else if (avgScore >= 0.4) { qualityLabel = 'Bonne'; qualityColor = '#f59e0b'; qualityIcon = '🟡'; }
+            else if (avgScore >= 0.15) { qualityLabel = 'Modérée'; qualityColor = '#f97316'; qualityIcon = '🟠'; }
+            else { qualityLabel = 'Faible'; qualityColor = '#ef4444'; qualityIcon = '🔴'; }
             
             let html = `
-                <div class="metric-explain" style="border-left-color: #8b5cf6; background: rgba(139, 92, 246, 0.1);">
-                    <div class="metric-explain-header">
-                        <span class="metric-explain-icon">🔍</span>
-                        <span class="metric-explain-name">Métriques TREC</span>
-                        <span class="metric-explain-value" style="color: #8b5cf6; font-size: 1.5rem;">IR</span>
-                    </div>
-                    <div class="metric-explain-simple">
-                        <strong>Information Retrieval Metrics</strong><br><br>
-                        Ces métriques mesurent la qualité de la récupération d'informations.
+                <div style="margin-bottom: 1.5rem;">
+                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                        <div style="background: linear-gradient(135deg, #7c3aed, #6366f1); padding: 10px; border-radius: 12px;">
+                            <span style="font-size: 1.2rem;">🔬</span>
+                        </div>
+                        <div>
+                            <div style="font-size: 1.1rem; font-weight: 700; color: #e2e8f0;">Analyse IR Détaillée</div>
+                            <div style="font-size: 0.75rem; color: #8b8ba7;">Évaluation TREC — ${td.corpus_size || '?'} documents • ${td.retrieved_count || '?'} résultats • ${(td.search_time_ms || 0).toFixed(1)}ms</div>
+                        </div>
+                        <div style="margin-left: auto; text-align: right;">
+                            <div style="font-size: 0.7rem; color: #8b8ba7;">Qualité IR</div>
+                            <div style="font-size: 1rem; font-weight: 700; color: ${qualityColor};">${qualityIcon} ${qualityLabel}</div>
+                        </div>
                     </div>
                 </div>
             `;
             
+            // Metrics with detailed Google-style explanations
             const metrics = [
-                { key: 'precision', label: 'Precision', desc: 'Proportion de documents pertinents parmi ceux retrievés' },
-                { key: 'recall', label: 'Recall', desc: 'Proportion de documents pertinents récupérés sur le total' },
-                { key: 'map', label: 'MAP', desc: 'Mean Average Precision - qualité globale du ranking' },
-                { key: 'ndcg', label: 'NDCG', desc: 'Normalized DCG - pertinence normalisée' },
-                { key: 'mrr', label: 'MRR', desc: 'Mean Reciprocal Rank - rang de la première réponse pertinente' }
+                { 
+                    key: 'precision', val: precision, max: 1, pct: true,
+                    label: 'Precision@K', color: 'linear-gradient(90deg, #7c3aed, #a78bfa)',
+                    icon: '🎯',
+                    simple: 'Proportion de documents pertinents parmi ceux retrouvés.',
+                    detail: '<strong>Interprétation :</strong> Une Precision de ' + (precision*100).toFixed(0) + '% signifie que sur tous les documents retournés par le système, ' + (precision*100).toFixed(0) + '% étaient effectivement pertinents pour la requête. En recherche d\'information, cette métrique est particulièrement importante car elle reflète la qualité immédiate de l\'expérience utilisateur — moins de bruit dans les résultats.'
+                },
+                { 
+                    key: 'recall', val: recall, max: 1, pct: true,
+                    label: 'Recall@K', color: 'linear-gradient(90deg, #8b5cf6, #c084fc)',
+                    icon: '📡',
+                    simple: 'Proportion de documents pertinents retrouvés parmi tous les pertinents existants.',
+                    detail: '<strong>Interprétation :</strong> Un Recall de ' + (recall*100).toFixed(0) + '% indique que le système a pu retrouver ' + (recall*100).toFixed(0) + '% de tous les documents pertinents du corpus. Un recall élevé est crucial pour ne pas manquer d\'évidences importantes dans la vérification de crédibilité.'
+                },
+                { 
+                    key: 'map', val: map, max: 1, pct: false,
+                    label: 'MAP (Mean Average Precision)', color: 'linear-gradient(90deg, #6366f1, #818cf8)',
+                    icon: '📊',
+                    simple: 'Qualité globale du classement — les bons documents sont-ils en haut ?',
+                    detail: '<strong>Interprétation :</strong> MAP = ' + map.toFixed(3) + ' mesure la qualité du ranking sur l\'ensemble des requêtes. C\'est la métrique standard TREC (Text REtrieval Conference, NIST) qui pondère la position des documents pertinents. Un MAP > 0.5 est considéré bon; > 0.3 est acceptable pour un corpus spécialisé.'
+                },
+                { 
+                    key: 'ndcg', val: ndcg, max: 1, pct: false,
+                    label: 'NDCG (Normalized DCG)', color: 'linear-gradient(90deg, #a855f7, #d946ef)',
+                    icon: '📐',
+                    simple: 'Pertinence normalisée qui récompense les documents très pertinents au sommet.',
+                    detail: '<strong>Interprétation :</strong> NDCG = ' + ndcg.toFixed(3) + ' utilise des jugements de pertinence gradués (0=non pertinent, 1=pertinent, 2=très pertinent) et donne plus de poids aux documents en haut du classement. C\'est une métrique plus fine que MAP car elle distingue les niveaux de pertinence, très utilisée dans l\'évaluation IR par Google et NIST-TREC.'
+                },
+                { 
+                    key: 'mrr', val: mrr, max: 1, pct: false,
+                    label: 'MRR (Mean Reciprocal Rank)', color: 'linear-gradient(90deg, #f97316, #fb923c)',
+                    icon: '🏆',
+                    simple: 'Position moyenne du premier document pertinent trouvé.',
+                    detail: '<strong>Interprétation :</strong> MRR = ' + mrr.toFixed(3) + '. Si MRR = 1.0, le premier résultat est toujours pertinent. MRR = 0.5 signifie que le premier résultat pertinent est en moyenne en 2ème position. Cette métrique est cruciale pour l\'UX car l\'utilisateur regarde le premier résultat en priorité.'
+                },
+                { 
+                    key: 'bm25', val: bm25, max: 10, pct: false,
+                    label: 'BM25 Score (Top Document)', color: 'linear-gradient(90deg, #ec4899, #f472b6)',
+                    icon: '⚡',
+                    simple: 'Score de similarité lexicale du meilleur document (modèle Okapi BM25).',
+                    detail: '<strong>Interprétation :</strong> BM25 = ' + bm25.toFixed(3) + ' est le score de pertinence du modèle probabiliste Okapi BM25 (Robertson & Walker, 1994). Il utilise la fréquence des termes (TF), la fréquence inverse de document (IDF), et la longueur du document. Les paramètres k1=0.9 et b=0.4 sont optimisés pour notre corpus. Score > 5.0 indique une forte correspondance.'
+                }
             ];
             
+            html += '<div style="display: flex; flex-direction: column; gap: 1rem;">';
             metrics.forEach(m => {
-                const val = trecMetrics[m.key];
-                const displayVal = typeof val === 'number' ? (m.key === 'precision' || m.key === 'recall' ? (val * 100).toFixed(1) + '%' : val.toFixed(3)) : '--';
+                const displayVal = m.pct ? (m.val * 100).toFixed(1) + '%' : m.val.toFixed(3);
                 html += `
-                    <div class="metric-explain">
-                        <div class="metric-explain-header">
-                            <span class="metric-explain-icon">📈</span>
-                            <span class="metric-explain-name">${m.label}</span>
-                            <span class="metric-explain-value" style="color: #8b5cf6">${displayVal}</span>
+                    <div style="background: rgba(139,92,246,0.04); border: 1px solid rgba(139,92,246,0.1); border-radius: 12px; padding: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <span style="font-size: 1rem;">${m.icon}</span>
+                                <span style="font-size: 0.85rem; font-weight: 700; color: #c4b5fd;">${m.label}</span>
+                            </div>
+                            <span style="font-size: 1.1rem; font-weight: 700; color: #e2e8f0;">${displayVal}</span>
                         </div>
-                        <div class="metric-explain-simple">
-                            ${m.desc}
-                        </div>
+                        ${miniBar(m.val, m.max, m.color)}
+                        <p style="font-size: 0.8rem; color: #a78bfa; margin: 0.5rem 0 0 0; font-weight: 500;">${m.simple}</p>
+                        <p style="font-size: 0.75rem; color: #8b8ba7; margin: 0.4rem 0 0 0; line-height: 1.5;">${m.detail}</p>
                     </div>
                 `;
             });
+            html += '</div>';
+            
+            // Top Retrieved Documents
+            const evidences = td.evidence_snippets || [];
+            if (evidences.length > 0) {
+                html += `
+                    <div style="margin-top: 1.5rem; border-top: 1px solid rgba(139,92,246,0.15); padding-top: 1rem;">
+                        <div style="font-size: 0.9rem; font-weight: 700; color: #a78bfa; margin-bottom: 0.75rem;">📄 Top Documents Retrouvés</div>
+                `;
+                evidences.slice(0, 3).forEach((ev, idx) => {
+                    const relBar = miniBar(ev.score || 0, bm25 || 1, 'linear-gradient(90deg, #7c3aed, #a78bfa)');
+                    html += `
+                        <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(139,92,246,0.08); border-radius: 8px; padding: 0.75rem; margin-bottom: 0.5rem;">
+                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.3rem;">
+                                <span style="background: linear-gradient(135deg, #7c3aed, #6366f1); color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.6rem; font-weight: 700;">#${idx + 1}</span>
+                                <span style="font-weight: 600; font-size: 0.8rem; color: #c4b5fd;">${ev.title || ev.doc_id || 'Document'}</span>
+                                <span style="margin-left: auto; font-size: 0.7rem; color: #8b8ba7;">BM25: ${(ev.score || 0).toFixed(3)}</span>
+                            </div>
+                            ${relBar}
+                            <p style="font-size: 0.75rem; color: #8b8ba7; margin: 0.4rem 0 0; line-height: 1.4;">${(ev.snippet || '').substring(0, 150)}...</p>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+            }
+            
+            // Footer
+            html += `
+                <div style="margin-top: 1.5rem; padding: 0.75rem; background: rgba(139,92,246,0.06); border-radius: 8px; border: 1px solid rgba(139,92,246,0.1);">
+                    <div style="font-size: 0.7rem; color: #8b8ba7; line-height: 1.5;">
+                        <strong style="color: #a78bfa;">Méthodologie :</strong> Les métriques sont calculées selon le cadre d'évaluation TREC (Text REtrieval Conference, NIST). 
+                        Le corpus de ${td.corpus_size || '90'} documents est recherché avec BM25 (Okapi), et les résultats sont évalués contre des jugements de pertinence gradués (qrels). 
+                        Ces métriques contribuent ${(lastAnalysisData && lastAnalysisData.detailsScore && lastAnalysisData.detailsScore.weights) ? (lastAnalysisData.detailsScore.weights.trec_evidence * 100 || 12) : 12}% au score de crédibilité final.
+                    </div>
+                </div>
+            `;
             
             body.innerHTML = html;
             modal.classList.add('visible');

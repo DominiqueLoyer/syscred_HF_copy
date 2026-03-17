@@ -528,7 +528,18 @@ class CredibilityVerificationSystem:
             adjustments += adjustment_factor
             total_weight_used += w_graph * confidence  # Partial weight based on confidence
         
-        # 8. [NEW] Linguistic Markers Analysis (sensationalism penalty)
+        # 8. [NEW] TREC Evidence Support Score (12%)
+        # Evidence retrieved that supports the claim boosts credibility
+        w_trec = self.weights.get('trec_evidence', 0.12)
+        trec_score_data = rule_results.get('trec_evidence_data', {})
+        trec_evidence_score = trec_score_data.get('support_score', None)
+        if trec_evidence_score is not None and trec_evidence_score > 0:
+            # Score 0-1: > 0.5 means evidence supports, < 0.5 means weak evidence
+            adjustment = (trec_evidence_score - 0.5) * w_trec
+            adjustments += adjustment
+            total_weight_used += w_trec
+        
+        # 9. Linguistic Markers Analysis (sensationalism penalty)
         # Penalize sensational language heavily, reward doubt markers (critical thinking)
         linguistic = rule_results.get('linguistic_markers', {})
         sensationalism_count = linguistic.get('sensationalism', 0)
@@ -870,6 +881,18 @@ class CredibilityVerificationSystem:
                 'similar_count': graph_data.get('similar_count', 0)
             })
 
+        # 6. TREC Evidence Support
+        trec_data = rule_results.get('trec_evidence_data', {})
+        if trec_data.get('support_score', 0) > 0:
+            trec_score = trec_data['support_score']
+            impact = '+' if trec_score > 0.6 else ('-' if trec_score < 0.4 else '0')
+            factors.append({
+                'factor': 'TREC Evidence Support',
+                'value': f"Score: {trec_score:.2f}, {trec_data.get('evidence_count', 0)} evidences",
+                'weight': f"{int(self.weights.get('trec_evidence',0)*100)}%",
+                'impact': impact
+            })
+
         return factors
     
     def verify_information(self, input_data: str) -> Dict[str, Any]:
@@ -1009,7 +1032,40 @@ class CredibilityVerificationSystem:
             except Exception as e:
                 print(f"[SysCRED] E-E-A-T failed: {e}")
 
-        # 7. Calculate score (Now includes GraphRAG context)
+        # 6.7 [TREC] Evidence Retrieval using TREC IR methodology
+        trec_evidences = []
+        trec_evidence_data = {}
+        if self.trec_retriever:
+            try:
+                # Use cleaned text or input as query (truncated for BM25)
+                evidence_query = cleaned_text[:300] if cleaned_text else input_data[:200]
+                evidences_raw = self.retrieve_evidence(evidence_query, k=10, model='bm25')
+                trec_evidences = evidences_raw
+                
+                if trec_evidences:
+                    # Compute evidence support score from retrieval scores
+                    # Normalize BM25 scores to 0-1 range
+                    max_bm25 = max(e.get('score', 0) for e in trec_evidences) if trec_evidences else 0
+                    if max_bm25 > 0:
+                        # BM25 scores are typically 0-15+, normalize to 0-1
+                        support_score = min(1.0, max_bm25 / 10.0)
+                    else:
+                        support_score = 0.0
+                    
+                    trec_evidence_data = {
+                        'support_score': support_score,
+                        'evidence_count': len(trec_evidences),
+                        'top_evidence_title': trec_evidences[0].get('title', '') if trec_evidences else '',
+                        'top_evidence_score': round(max_bm25, 4)
+                    }
+                    rule_results['trec_evidence_data'] = trec_evidence_data
+                    print(f"[SysCRED] TREC: {len(trec_evidences)} evidences, support={support_score:.3f}")
+                else:
+                    print("[SysCRED] TREC: No evidences found")
+            except Exception as e:
+                print(f"[SysCRED] TREC evidence retrieval failed: {e}")
+
+        # 7. Calculate score (Now includes GraphRAG + TREC evidence)
         overall_score = self.calculate_overall_score(rule_results, nlp_results)
         print(f"[SysCRED] ✓ Credibility score: {overall_score:.2f}")
 
@@ -1023,6 +1079,12 @@ class CredibilityVerificationSystem:
         # [NER + E-E-A-T] Always include in report (even if empty)
         report['ner_entities'] = ner_entities
         report['eeat_scores'] = eeat_scores
+        
+        # [TREC] Add evidence data to report
+        if trec_evidence_data:
+            report['trec_evidence_data'] = trec_evidence_data
+        if trec_evidences:
+            report['trec_evidences'] = trec_evidences[:5]  # Top 5 evidence snippets
 
         # Add similar URIs to report for ontology linking
         if similar_uris:

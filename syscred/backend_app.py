@@ -112,100 +112,92 @@ seo_analyzer = None
 trec_retriever = None
 eval_metrics = None
 
-# Demo corpus for TREC (AP88-90 style documents — diverse topics)
-TREC_DEMO_CORPUS = {
-    # Climate
-    "AP880101-0001": {
-        "text": "Climate change is primarily caused by human activities, particularly the burning of fossil fuels which release greenhouse gases into the atmosphere.",
-        "title": "Climate Science Report",
-        "topic": "climate"
-    },
-    "AP880101-0002": {
-        "text": "The Earth's temperature has risen significantly over the past century due to greenhouse gas emissions from industrial activities and deforestation.",
-        "title": "Global Warming Study",
-        "topic": "climate"
-    },
-    "AP880102-0001": {
-        "text": "Scientists warn that sea levels could rise dramatically if current warming trends continue, threatening coastal cities worldwide.",
-        "title": "Sea Level Warning",
-        "topic": "climate"
-    },
-    # Politics / Fact-checking
-    "AP890215-0001": {
-        "text": "The presidential election campaign focused on economic policies, healthcare reform, and national security issues. Candidates made numerous claims that were fact-checked by independent organizations.",
-        "title": "Election Coverage",
-        "topic": "politics"
-    },
-    "AP890216-0001": {
-        "text": "Stock markets rose sharply after positive economic indicators were released by the Federal Reserve, signaling economic recovery.",
-        "title": "Financial News",
-        "topic": "economy"
-    },
-    "AP880201-0001": {
-        "text": "Renewable energy sources like solar and wind power are becoming more cost-effective alternatives to fossil fuels.",
-        "title": "Green Energy Report",
-        "topic": "climate"
-    },
-    "AP890301-0001": {
-        "text": "The technology industry continues to grow rapidly, with artificial intelligence and machine learning driving innovation across sectors.",
-        "title": "Tech Industry Update",
-        "topic": "tech"
-    },
-    # Politics & misinformation
-    "AP890401-0001": {
-        "text": "Donald Trump made several statements about the January 6 Capitol insurrection that were disputed by fact-checkers and contradicted by video evidence and court testimony.",
-        "title": "Capitol Insurrection Fact-Check",
-        "topic": "politics"
-    },
-    "AP890401-0002": {
-        "text": "Political misinformation spread rapidly on social media platforms during election season, with false claims about voter fraud being widely shared despite lack of evidence.",
-        "title": "Misinformation in Elections",
-        "topic": "politics"
-    },
-    "AP890501-0001": {
-        "text": "Fact-checking organizations worldwide have increased their efforts to combat false claims and conspiracy theories circulating on social media platforms.",
-        "title": "Global Fact-Checking Efforts",
-        "topic": "factcheck"
-    },
-    # Health
-    "AP890601-0001": {
-        "text": "COVID-19 vaccines have been proven safe and effective through extensive clinical trials involving millions of participants across multiple countries.",
-        "title": "Vaccine Safety Report",
-        "topic": "health"
-    },
-    "AP890601-0002": {
-        "text": "The World Health Organization warned about the dangers of health misinformation, particularly regarding vaccines and pandemic-related treatments.",
-        "title": "WHO Misinformation Warning",
-        "topic": "health"
-    },
-    # Media credibility
-    "AP890701-0001": {
-        "text": "Traditional media outlets maintain editorial standards including fact-checking, source verification, and editorial review before publication.",
-        "title": "Media Standards Report",
-        "topic": "media"
-    },
-    "AP890701-0002": {
-        "text": "Social media algorithms can create filter bubbles that reinforce existing beliefs and make users more susceptible to misinformation and biased content.",
-        "title": "Algorithm Bias Study",
-        "topic": "media"
-    },
-    "AP890801-0001": {
-        "text": "Independent fact-checking organizations use systematic methods to verify claims made by politicians, evaluating evidence and providing rating scales for accuracy.",
-        "title": "Fact-Check Methodology",
-        "topic": "factcheck"
-    },
-}
+# --- Load TREC Corpus and Qrels from dataset files ---
 
-# Topic-based relevance judgments (qrels) for demo evaluation
-TREC_DEMO_QRELS = {
-    "politics": {"AP890215-0001", "AP890401-0001", "AP890401-0002", "AP890501-0001", "AP890801-0001"},
-    "climate": {"AP880101-0001", "AP880101-0002", "AP880102-0001", "AP880201-0001"},
-    "health": {"AP890601-0001", "AP890601-0002"},
-    "factcheck": {"AP890501-0001", "AP890801-0001", "AP890401-0001"},
-    "economy": {"AP890216-0001"},
-    "tech": {"AP890301-0001"},
-    "media": {"AP890701-0001", "AP890701-0002"},
-}
+import json as _json
+from pathlib import Path as _Path
+from collections import defaultdict as _defaultdict
+
+def _load_trec_corpus():
+    """Load TREC corpus from datasets/trec/corpus.jsonl."""
+    corpus = {}
+    corpus_path = None
+    
+    # Try config path first
+    if SYSCRED_AVAILABLE:
+        corpus_path = getattr(Config, 'TREC_CORPUS_PATH', None)
+    
+    # Fallback to local datasets dir
+    if not corpus_path:
+        local_path = _Path(__file__).parent / "datasets" / "trec" / "corpus.jsonl"
+        if local_path.exists():
+            corpus_path = str(local_path)
+    
+    if corpus_path and os.path.exists(corpus_path):
+        try:
+            with open(corpus_path, 'r', encoding='utf-8') as f:
+                for line in f:
+                    doc = _json.loads(line.strip())
+                    doc_id = doc.get('id', '')
+                    corpus[doc_id] = {
+                        'text': doc.get('contents', doc.get('text', '')),
+                        'title': doc.get('title', ''),
+                        'topic': doc.get('topic', 'general')
+                    }
+            print(f"[SysCRED Backend] TREC corpus loaded: {len(corpus)} documents from {corpus_path}")
+        except Exception as e:
+            print(f"[SysCRED Backend] TREC corpus load error: {e}")
+    else:
+        print(f"[SysCRED Backend] TREC corpus file not found, using empty corpus")
+    
+    return corpus
+
+
+def _load_trec_qrels():
+    """Load TREC qrels from datasets/trec/qrels.txt."""
+    # topic_id -> set of relevant doc_ids
+    qrels_by_topic = _defaultdict(set)
+    # topic_id -> {doc_id: relevance}
+    qrels_graded = _defaultdict(dict)
+    qrels_path = None
+    
+    if SYSCRED_AVAILABLE:
+        qrels_path = getattr(Config, 'TREC_QRELS_PATH', None)
+    
+    if not qrels_path:
+        local_path = _Path(__file__).parent / "datasets" / "trec" / "qrels.txt"
+        if local_path.exists():
+            qrels_path = str(local_path)
+    
+    if qrels_path and os.path.exists(qrels_path):
+        try:
+            with open(qrels_path, 'r', encoding='utf-8') as f:
+                for line in f:
+                    parts = line.strip().split()
+                    if len(parts) >= 4:
+                        topic_id, _, doc_id, relevance = parts[:4]
+                        rel = int(relevance)
+                        qrels_graded[topic_id][doc_id] = rel
+                        if rel > 0:
+                            qrels_by_topic[topic_id].add(doc_id)
+            print(f"[SysCRED Backend] TREC qrels loaded: {sum(len(v) for v in qrels_graded.values())} judgments for {len(qrels_graded)} topics")
+        except Exception as e:
+            print(f"[SysCRED Backend] TREC qrels load error: {e}")
+    else:
+        print(f"[SysCRED Backend] TREC qrels file not found")
+    
+    return dict(qrels_by_topic), dict(qrels_graded)
+
+
+# Load at module level
+TREC_CORPUS = _load_trec_corpus()
+TREC_QRELS_BY_TOPIC, TREC_QRELS_GRADED = _load_trec_qrels()
+
+# Build reverse mapping: doc_id -> set of topics (for topic matching)
+TREC_DOC_TOPICS = {}
+for doc_id, doc in TREC_CORPUS.items():
+    TREC_DOC_TOPICS[doc_id] = doc.get('topic', 'general')
+
 
 
 def initialize_system():
@@ -353,9 +345,9 @@ def verify_endpoint():
             # Initialize TREC if needed
             if trec_retriever is None and TREC_AVAILABLE:
                 trec_retriever = TRECRetriever(use_stemming=True, enable_prf=False)
-                trec_retriever.corpus = TREC_DEMO_CORPUS
+                trec_retriever.corpus = TREC_CORPUS
                 eval_metrics = EvaluationMetrics()
-                print("[SysCRED Backend] TREC Retriever initialized with demo corpus")
+                print(f"[SysCRED Backend] TREC Retriever initialized with {len(TREC_CORPUS)} documents")
             
             if trec_retriever and eval_metrics:
                 import time
@@ -364,21 +356,30 @@ def verify_endpoint():
                 # Use the input text as query
                 query_text = input_data[:200] if not credibility_system.is_url(input_data) else result.get('informationEntree', input_data)[:200]
                 
-                trec_result = trec_retriever.retrieve_evidence(query_text, k=5, model='bm25')
+                trec_result = trec_retriever.retrieve_evidence(query_text, k=10, model='bm25')
                 search_time = (time.time() - start_time) * 1000
                 
                 retrieved_ids = [e.doc_id for e in trec_result.evidences]
                 
-                # Determine query topic from retrieved docs
+                # Map document topic labels to qrel topic IDs
+                _TOPIC_LABEL_TO_ID = {
+                    'climate': '101', 'factcheck': '102', 'health': '103',
+                    'bias': '104', 'media': '105', 'credibility': '108',
+                    'disinfo': '107', 'economy': '109', 'tech': '110',
+                    'environment': '111', 'education': '112', 'politics': '105',
+                    'science': '106',
+                }
+                
+                # Determine best matching qrel topic from retrieved docs
                 topic_scores = {}
                 for doc_id in retrieved_ids:
-                    doc = TREC_DEMO_CORPUS.get(doc_id, {})
-                    topic = doc.get('topic', 'general')
-                    topic_scores[topic] = topic_scores.get(topic, 0) + 1
+                    doc_topic = TREC_DOC_TOPICS.get(doc_id, 'general')
+                    qrel_topic_id = _TOPIC_LABEL_TO_ID.get(doc_topic, '108')  # default: credibility
+                    topic_scores[qrel_topic_id] = topic_scores.get(qrel_topic_id, 0) + 1
                 
-                # Best matching topic determines qrels
-                best_topic = max(topic_scores, key=topic_scores.get) if topic_scores else 'politics'
-                relevant_ids = TREC_DEMO_QRELS.get(best_topic, set(TREC_DEMO_CORPUS.keys()))
+                best_topic_id = max(topic_scores, key=topic_scores.get) if topic_scores else '108'
+                relevant_ids = TREC_QRELS_BY_TOPIC.get(best_topic_id, set())
+                graded_relevance = TREC_QRELS_GRADED.get(best_topic_id, {})
                 
                 # Compute IR metrics
                 k = len(retrieved_ids) if retrieved_ids else 1
@@ -387,7 +388,8 @@ def verify_endpoint():
                 ap = eval_metrics.average_precision(retrieved_ids, relevant_ids) if retrieved_ids else 0
                 mrr = eval_metrics.mrr(retrieved_ids, relevant_ids) if retrieved_ids else 0
                 
-                relevance_dict = {doc: 1 for doc in relevant_ids}
+                # Use graded relevance for NDCG
+                relevance_dict = graded_relevance if graded_relevance else {doc: 1 for doc in relevant_ids}
                 ndcg = eval_metrics.ndcg_at_k(retrieved_ids, relevance_dict, k) if retrieved_ids else 0
                 
                 # BM25 score from top result
@@ -395,8 +397,8 @@ def verify_endpoint():
                 
                 # Evidence snippets for display
                 evidence_snippets = []
-                for ev in trec_result.evidences[:3]:
-                    doc_info = TREC_DEMO_CORPUS.get(ev.doc_id, {})
+                for ev in trec_result.evidences[:5]:
+                    doc_info = TREC_CORPUS.get(ev.doc_id, {})
                     evidence_snippets.append({
                         'doc_id': ev.doc_id,
                         'title': doc_info.get('title', ''),
@@ -412,12 +414,12 @@ def verify_endpoint():
                     'tfidf_score': round(tfidf_score, 4),
                     'mrr': round(mrr, 4),
                     'retrieved_count': len(retrieved_ids),
-                    'corpus_size': len(TREC_DEMO_CORPUS),
+                    'corpus_size': len(TREC_CORPUS),
                     'search_time_ms': round(search_time, 2),
-                    'matched_topic': best_topic,
+                    'matched_topic': best_topic_id,
                     'evidence_snippets': evidence_snippets
                 }
-                print(f"[SysCRED Backend] TREC: P={precision:.3f} R={recall:.3f} MAP={ap:.3f} NDCG={ndcg:.3f} MRR={mrr:.3f} Topic={best_topic}")
+                print(f"[SysCRED Backend] TREC: P={precision:.3f} R={recall:.3f} MAP={ap:.3f} NDCG={ndcg:.3f} MRR={mrr:.3f} Topic={best_topic_id}")
         except Exception as e:
             print(f"[SysCRED Backend] TREC metrics error: {e}")
             result['trec_metrics'] = {'error': str(e)}
@@ -632,9 +634,9 @@ def trec_search():
     if trec_retriever is None:
         try:
             trec_retriever = TRECRetriever(use_stemming=True, enable_prf=False)
-            trec_retriever.corpus = TREC_DEMO_CORPUS
+            trec_retriever.corpus = TREC_CORPUS
             eval_metrics = EvaluationMetrics()
-            print("[SysCRED Backend] TREC Retriever initialized with demo corpus")
+            print(f"[SysCRED Backend] TREC Retriever initialized with {len(TREC_CORPUS)} documents")
         except Exception as e:
             return jsonify({'error': f'TREC initialization failed: {str(e)}'}), 503
     
@@ -701,7 +703,7 @@ def trec_corpus():
     }
     """
     docs = []
-    for doc_id, doc in TREC_DEMO_CORPUS.items():
+    for doc_id, doc in TREC_CORPUS.items():
         docs.append({
             'doc_id': doc_id,
             'title': doc.get('title', ''),
@@ -709,8 +711,8 @@ def trec_corpus():
         })
     
     return jsonify({
-        'corpus_size': len(TREC_DEMO_CORPUS),
-        'corpus_type': 'AP88-90 Demo',
+        'corpus_size': len(TREC_CORPUS),
+        'corpus_type': 'AP88-90 SysCRED',
         'documents': docs
     }), 200
 
@@ -790,7 +792,7 @@ def trec_health():
         'status': 'healthy',
         'trec_available': TREC_AVAILABLE if 'TREC_AVAILABLE' in dir() else True,
         'retriever_initialized': trec_retriever is not None,
-        'corpus_size': len(TREC_DEMO_CORPUS),
+        'corpus_size': len(TREC_CORPUS),
         'models_available': ['bm25', 'tfidf', 'qld']
     }), 200
 

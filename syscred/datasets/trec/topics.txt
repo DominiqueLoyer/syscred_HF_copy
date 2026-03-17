@@ -1,0 +1,83 @@
+<top>
+<num> 101
+<title> Climate change causes
+<desc> What are the primary causes of climate change and global warming?
+<narr> A relevant document will discuss the causes of climate change, including human activities, greenhouse gas emissions, and their effects on global temperatures. Documents about climate policy or adaptation without discussing causes are not relevant.
+</top>
+
+<top>
+<num> 102
+<title> Fact-checking methodology
+<desc> What methods and techniques are used by fact-checking organizations to verify claims?
+<narr> A relevant document will describe specific methodologies, tools, or processes used for fact-checking and claim verification. General mentions of fact-checking without methodology details are marginally relevant.
+</top>
+
+<top>
+<num> 103
+<title> Vaccine safety and misinformation
+<desc> What is the evidence regarding vaccine safety and what misinformation exists about vaccines?
+<narr> A relevant document will discuss scientific evidence about vaccine safety, clinical trials data, or address common misinformation about vaccines. Documents about vaccine distribution logistics are not relevant.
+</top>
+
+<top>
+<num> 104
+<title> Media bias detection
+<desc> How can bias in media reporting be detected and measured?
+<narr> A relevant document will discuss methods for detecting media bias, types of bias in news reporting, or tools for analyzing biased content. General media industry news is not relevant.
+</top>
+
+<top>
+<num> 105
+<title> Social media misinformation spread
+<desc> How does misinformation spread on social media platforms?
+<narr> A relevant document will discuss the mechanisms by which false information spreads on social media, including algorithmic amplification, bot networks, and filter bubbles. Documents about social media usage statistics alone are not relevant.
+</top>
+
+<top>
+<num> 106
+<title> Information retrieval evaluation
+<desc> How are information retrieval systems evaluated for effectiveness?
+<narr> A relevant document will discuss evaluation metrics for IR systems such as precision, recall, MAP, NDCG, or the TREC evaluation framework. Documents about search engine features without evaluation metrics are not relevant.
+</top>
+
+<top>
+<num> 107
+<title> Disinformation campaigns
+<desc> What organized disinformation campaigns have been documented and how do they operate?
+<narr> A relevant document will describe specific disinformation campaigns, state-sponsored information operations, or coordinated manipulation efforts. General discussions of fake news without organized campaigns are marginally relevant.
+</top>
+
+<top>
+<num> 108
+<title> Credibility assessment methods
+<desc> What approaches exist for assessing the credibility of online information sources?
+<narr> A relevant document will discuss frameworks, methods, or tools for evaluating source credibility, including E-E-A-T criteria, NLP-based approaches, or knowledge graph methods. Simple reputation lists without methodology are not relevant.
+</top>
+
+<top>
+<num> 109
+<title> Economic indicators and claims
+<desc> What are the key economic indicators and how are economic claims verified?
+<narr> A relevant document will discuss economic indicators such as employment, inflation, GDP, or trade data, and how claims about the economy can be verified. Pure financial market analysis is marginally relevant.
+</top>
+
+<top>
+<num> 110
+<title> AI and deepfakes
+<desc> How is artificial intelligence used to create and detect deepfakes and manipulated media?
+<narr> A relevant document will discuss deepfake technology, AI-generated content, or tools and methods for detecting manipulated media. General AI industry news without connection to manipulated content is not relevant.
+</top>
+
+<top>
+<num> 111
+<title> Environmental science claims
+<desc> What scientific evidence exists regarding environmental issues like pollution, biodiversity loss, and sustainability?
+<narr> A relevant document will present scientific data or evidence about environmental issues including ocean acidification, deforestation, plastic pollution, or biodiversity loss. Environmental policy documents without scientific data are marginally relevant.
+</top>
+
+<top>
+<num> 112
+<title> News literacy and education
+<desc> How are news literacy and critical thinking about media being taught?
+<narr> A relevant document will discuss educational programs, curricula, or research about teaching media literacy and information evaluation skills. General education news is not relevant.
+</top>

@@ -75,11 +75,23 @@ class Config:
     # === Timeouts ===
     WEB_FETCH_TIMEOUT = int(os.getenv("SYSCRED_TIMEOUT", "10"))
     
-    # === TREC IR Configuration (NEW - Feb 2026) ===
+    # === TREC IR Configuration (NEW - Feb 2026, Updated Mar 2026) ===
     TREC_INDEX_PATH = os.getenv("SYSCRED_TREC_INDEX", None)  # Lucene/Pyserini index
-    TREC_CORPUS_PATH = os.getenv("SYSCRED_TREC_CORPUS", None)  # JSONL corpus
-    TREC_TOPICS_PATH = os.getenv("SYSCRED_TREC_TOPICS", None)  # Topics directory
-    TREC_QRELS_PATH = os.getenv("SYSCRED_TREC_QRELS", None)  # Qrels directory
+    
+    # Default TREC data paths: bundled in datasets/trec/
+    _TREC_DATA_DIR = BASE_DIR / "syscred" / "datasets" / "trec"
+    TREC_CORPUS_PATH = os.getenv(
+        "SYSCRED_TREC_CORPUS",
+        str(_TREC_DATA_DIR / "corpus.jsonl") if (_TREC_DATA_DIR / "corpus.jsonl").exists() else None
+    )
+    TREC_TOPICS_PATH = os.getenv(
+        "SYSCRED_TREC_TOPICS",
+        str(_TREC_DATA_DIR / "topics.txt") if (_TREC_DATA_DIR / "topics.txt").exists() else None
+    )
+    TREC_QRELS_PATH = os.getenv(
+        "SYSCRED_TREC_QRELS",
+        str(_TREC_DATA_DIR / "qrels.txt") if (_TREC_DATA_DIR / "qrels.txt").exists() else None
+    )
     
     # BM25 Parameters (optimized on AP88-90)
     BM25_K1 = float(os.getenv("SYSCRED_BM25_K1", "0.9"))
@@ -93,13 +105,14 @@ class Config:
     # === Pondération des scores ===
     # Note: Weights should sum to 1.0 for proper normalization
     SCORE_WEIGHTS = {
-        'source_reputation': 0.22,    # Was 0.25, reduced for graph_context
-        'domain_age': 0.08,           # Was 0.10
-        'sentiment_neutrality': 0.13, # Was 0.15
-        'entity_presence': 0.13,      # Was 0.15
-        'coherence': 0.12,            # Was 0.15
-        'fact_check': 0.17,           # Was 0.20
-        'graph_context': 0.15         # NEW - Historical knowledge from GraphRAG
+        'source_reputation': 0.20,
+        'domain_age': 0.07,
+        'sentiment_neutrality': 0.12,
+        'entity_presence': 0.11,
+        'coherence': 0.10,
+        'fact_check': 0.15,
+        'graph_context': 0.13,
+        'trec_evidence': 0.12,        # NEW - TREC evidence support score
     }
     
     # === Seuils de crédibilité ===
