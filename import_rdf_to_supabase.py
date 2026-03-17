@@ -2,13 +2,28 @@
 """
 Import Turtle RDF data into Supabase
 """
+import os
+import sys
 import requests
 from rdflib import Graph, Literal, URIRef, Namespace
 from pathlib import Path
 
-SUPABASE_URL = "https://zmluirvqfkmfazqitqgi.supabase.co"
-# Use service role key for insert operations
-SUPABASE_KEY = "sb_secret_2CWvKTeiJ-gbQn5AGCI8YQ_vOujwVnt"
+# Load .env file (if python-dotenv is installed)
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass  # dotenv not installed — rely on system env vars
+
+# === SECURE: Load credentials from environment variables ===
+SUPABASE_URL = os.environ.get("SUPABASE_URL", "https://zmluirvqfkmfazqitqgi.supabase.co")
+SUPABASE_KEY = os.environ.get("SUPABASE_SECRET_KEY") or os.environ.get("SUPABASE_SERVICE_ROLE_KEY", "")
+
+if not SUPABASE_KEY:
+    print("❌ ERREUR: SUPABASE_SECRET_KEY non défini!")
+    print("   Créez un fichier .env avec: SUPABASE_SECRET_KEY=votre_clé")
+    print("   Ou exportez: export SUPABASE_SECRET_KEY=votre_clé")
+    sys.exit(1)
 
 headers = {
     'apikey': SUPABASE_KEY,
